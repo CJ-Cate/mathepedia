@@ -90,7 +90,3 @@ route, set `BASE` back to `'/mathepedia'` and everything else follows automatica
 
 The same applies to a custom domain: point the domain at the repo, add a `CNAME` file to
 `public/`, and leave `BASE` as `'/'`.
-
-## License
-
-Article text is free to reuse. Site code is MIT.
