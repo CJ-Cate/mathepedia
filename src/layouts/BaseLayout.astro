@@ -15,9 +15,9 @@ interface Props {
 
 const { title, description, path } = Astro.props;
 
-// Serving from the root means this must be the user-page repository. If the site moves
-// to a project page, update this alongside `BASE` in astro.config.mjs.
-const REPO_URL = 'https://github.com/cj-cate/cj-cate.github.io';
+// The repository behind mathepedia.org. Only used for the "Contribute" links in the
+// sidebar -- the site itself is served from the custom domain in public/CNAME.
+const REPO_URL = 'https://github.com/CJ-Cate/mathepedia';
 
 const SITE_NAME = 'Mathepedia';
 const TAGLINE = 'The free math encyclopedia';

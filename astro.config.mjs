@@ -13,17 +13,17 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import { rehypeBaseUrl } from './src/lib/rehype-base-url.mjs';
 
 // The site is served from the root, so there is no path prefix to navigate past --
-// locally that is http://localhost:4321/ and in production https://mathepedia.com/.
+// locally that is http://localhost:4321/ and in production https://mathepedia.org/.
 //
 // This relies on GitHub Pages' custom domain support: public/CNAME points the repo
-// (CJ-Cate/mathepedia) at mathepedia.com, with DNS configured to match. Without that
+// (CJ-Cate/mathepedia) at mathepedia.org, with DNS configured to match. Without that
 // CNAME, a project repo like this one would normally be served from /mathepedia/
 // instead, and this would need to be set back to '/mathepedia' to match.
 const BASE = '/';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://mathepedia.com',
+  site: 'https://mathepedia.org',
   base: BASE,
 
   integrations: [mdx(), sitemap(), pagefind()],

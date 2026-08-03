@@ -33,5 +33,5 @@ export function categoryHref(category: string): string {
 
 /** Absolute URL, for canonical links and Open Graph tags. */
 export function absoluteHref(path: string, site: URL | undefined): string {
-  return new URL(href(path), site ?? 'https://cj-cate.github.io').toString();
+  return new URL(href(path), site ?? 'https://mathepedia.org').toString();
 }
