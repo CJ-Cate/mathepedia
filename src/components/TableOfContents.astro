@@ -1,0 +1,34 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+/**
+ * The "Contents" box, built from the article's own headings.
+ *
+ * Only `##` and `###` are listed. `#` is the article title, and anything deeper than
+ * `###` makes the box longer than the section it points at.
+ */
+interface Props {
+  headings: MarkdownHeading[];
+}
+
+const { headings } = Astro.props;
+
+const entries = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
+---
+
+{
+  entries.length > 0 && (
+    <nav class="toc" aria-labelledby="toc-heading">
+      <p class="toc__title" id="toc-heading">
+        Contents
+      </p>
+      <ol class="toc__list">
+        {entries.map((heading) => (
+          <li class={`toc__item toc__item--depth-${heading.depth}`}>
+            <a href={`#${heading.slug}`}>{heading.text}</a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  )
+}

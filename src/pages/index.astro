@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { CATEGORIES, CATEGORY_IDS, formatDate, getRecentlyUpdated, getTopics } from '../lib/topics';
+import { categoryHref, href, topicHref } from '../lib/url';
+
+const topics = await getTopics();
+const recent = await getRecentlyUpdated(4);
+
+const countsByCategory = new Map<string, number>();
+for (const topic of topics) {
+  countsByCategory.set(topic.data.category, (countsByCategory.get(topic.data.category) ?? 0) + 1);
+}
+
+// Built as one string rather than two adjacent expressions in the template. Astro 7
+// compresses HTML with JSX whitespace rules, which drop the whitespace between two
+// expressions separated by a newline -- that renders as "4articles".
+const articleCount = `${topics.length} ${topics.length === 1 ? 'article' : 'articles'}`;
+---
+
+<BaseLayout title="Mathepedia" path="/">
+  <h1 class="page-title">Welcome to Mathepedia</h1>
+  <p class="lede">
+    A free encyclopedia of mathematics that anyone can edit by opening a pull request. Every
+    article starts with the intuition and works downward into the technical version, so you can
+    stop reading at whatever depth answers your question. {articleCount} so far.
+  </p>
+
+  <h2 class="section-heading">Browse by category</h2>
+  <ul class="card-grid">
+    {
+      CATEGORY_IDS.map((id) => {
+        const count = countsByCategory.get(id) ?? 0;
+        return (
+          <li class="card">
+            <p class="card__title">
+              <a href={categoryHref(id)}>{CATEGORIES[id].label}</a>
+            </p>
+            <p class="card__blurb">{CATEGORIES[id].blurb}</p>
+            <p class="card__count">
+              {count} {count === 1 ? 'article' : 'articles'}
+            </p>
+          </li>
+        );
+      })
+    }
+  </ul>
+
+  {
+    recent.length > 0 && (
+      <>
+        <h2 class="section-heading">Recently updated</h2>
+        <ul class="topic-links">
+          {recent.map((topic) => (
+            <li>
+              <a href={topicHref(topic.id)}>{topic.data.title}</a>{' '}
+              <span class="card__count">— {formatDate(topic.data.updated!)}</span>
+              <span class="topic-links__blurb">{topic.data.description}</span>
+            </li>
+          ))}
+        </ul>
+      </>
+    )
+  }
+
+  <h2 class="section-heading">Contributing</h2>
+  <p class="lede">
+    Articles are plain Markdown files with LaTeX, images, and interactive Desmos and
+    Wolfram|Alpha embeds. There is no account to make and no CMS to learn — edit a file, open a
+    PR. Start with <a href={href('/all/')}>the full article list</a> to see what already exists.
+  </p>
+</BaseLayout>

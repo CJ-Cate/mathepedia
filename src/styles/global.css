@@ -1,0 +1,978 @@
+/*
+ * Mathepedia — one stylesheet, no framework.
+ *
+ * Everything is driven by the custom properties in :root, so retheming the site means
+ * editing the block below and nothing else. Dark mode follows the OS by default and is
+ * overridden by [data-theme] when the reader uses the toggle.
+ */
+
+:root {
+  /* Typography */
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-serif: 'Linux Libertine', 'Georgia', 'Times New Roman', serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+
+  --text-base: 1rem;
+  --leading: 1.65;
+
+  /* Layout */
+  --measure: 46rem;
+  --sidebar-width: 13.5rem;
+  --gutter: 1.5rem;
+
+  /* Light palette — Wikipedia-adjacent on purpose. */
+  --bg: #ffffff;
+  --bg-subtle: #f8f9fa;
+  --bg-sunken: #eaecf0;
+  --fg: #202122;
+  --fg-muted: #54595d;
+  --rule: #c8ccd1;
+  --rule-soft: #eaecf0;
+
+  --link: #3366cc;
+  --link-visited: #795cb2;
+  --link-hover: #447ff5;
+  --link-missing: #d73333;
+
+  --accent: #36c;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.06);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #101418;
+    --bg-subtle: #181d23;
+    --bg-sunken: #22282f;
+    --fg: #e8eaed;
+    --fg-muted: #a2a9b1;
+    --rule: #3a424b;
+    --rule-soft: #272d34;
+
+    --link: #7cabe8;
+    --link-visited: #b9a3e3;
+    --link-hover: #a3c6f2;
+    --link-missing: #f08a8a;
+
+    --accent: #7cabe8;
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.4);
+  }
+}
+
+/* The toggle must beat the media query in both directions, hence the explicit pair. */
+:root[data-theme='light'] {
+  --bg: #ffffff;
+  --bg-subtle: #f8f9fa;
+  --bg-sunken: #eaecf0;
+  --fg: #202122;
+  --fg-muted: #54595d;
+  --rule: #c8ccd1;
+  --rule-soft: #eaecf0;
+  --link: #3366cc;
+  --link-visited: #795cb2;
+  --link-hover: #447ff5;
+  --link-missing: #d73333;
+  --accent: #36c;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.06);
+}
+
+:root[data-theme='dark'] {
+  --bg: #101418;
+  --bg-subtle: #181d23;
+  --bg-sunken: #22282f;
+  --fg: #e8eaed;
+  --fg-muted: #a2a9b1;
+  --rule: #3a424b;
+  --rule-soft: #272d34;
+  --link: #7cabe8;
+  --link-visited: #b9a3e3;
+  --link-hover: #a3c6f2;
+  --link-missing: #f08a8a;
+  --accent: #7cabe8;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.4);
+}
+
+/* ---------------------------------------------------------------- base ---- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Anchor jumps land below the sticky masthead instead of underneath it. */
+  scroll-padding-top: 5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading);
+  -webkit-text-size-adjust: 100%;
+}
+
+a {
+  color: var(--link);
+  text-decoration: none;
+}
+
+a:visited {
+  color: var(--link-visited);
+}
+
+a:hover,
+a:focus-visible {
+  color: var(--link-hover);
+  text-decoration: underline;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+code {
+  background: var(--bg-sunken);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}
+
+pre {
+  background: var(--bg-subtle);
+  border: 1px solid var(--rule-soft);
+  border-radius: 4px;
+  padding: 0.9rem 1rem;
+  overflow-x: auto;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--rule-soft);
+  margin: 2rem 0;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  background: var(--bg);
+  color: var(--fg);
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--rule);
+}
+
+.skip-link:focus {
+  left: 0.5rem;
+  top: 0.5rem;
+}
+
+/* ----------------------------------------------------------- masthead ---- */
+
+.masthead {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--bg);
+  border-bottom: 1px solid var(--rule);
+}
+
+.masthead__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 78rem;
+  margin: 0 auto;
+  padding: 0.7rem var(--gutter);
+}
+
+.masthead__brand,
+.masthead__brand:visited {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--fg);
+}
+
+.masthead__brand:hover {
+  text-decoration: none;
+}
+
+.masthead__logo {
+  font-family: var(--font-serif);
+  font-size: 1.9rem;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.masthead__names {
+  display: flex;
+  flex-direction: column;
+}
+
+.masthead__title {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  line-height: 1.1;
+}
+
+.masthead__tagline {
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+}
+
+.masthead__tools {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.searchbox {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.searchbox__input {
+  min-width: 0;
+  width: clamp(9rem, 26vw, 18rem);
+  padding: 0.4rem 0.6rem;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--fg);
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+}
+
+.searchbox__button,
+.theme-toggle {
+  padding: 0.4rem 0.7rem;
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--fg);
+  background: var(--bg-subtle);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.searchbox__button:hover,
+.theme-toggle:hover {
+  background: var(--bg-sunken);
+}
+
+.theme-toggle__icon::before {
+  content: '◐';
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* -------------------------------------------------------------- shell ---- */
+
+.shell {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  gap: 2.5rem;
+  max-width: 78rem;
+  margin: 0 auto;
+  padding: 1.75rem var(--gutter) 4rem;
+}
+
+.sidebar {
+  font-size: 0.875rem;
+  align-self: start;
+  position: sticky;
+  top: 5.5rem;
+}
+
+.sidebar__heading {
+  margin: 1.25rem 0 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--fg-muted);
+}
+
+.sidebar__heading:first-child {
+  margin-top: 0;
+}
+
+.sidebar__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar__list li {
+  margin: 0.2rem 0;
+}
+
+.content {
+  min-width: 0;
+}
+
+.sitefoot {
+  border-top: 1px solid var(--rule);
+  background: var(--bg-subtle);
+  color: var(--fg-muted);
+  font-size: 0.85rem;
+}
+
+.sitefoot p {
+  max-width: 78rem;
+  margin: 0 auto;
+  padding: 1.25rem var(--gutter);
+}
+
+@media (max-width: 60rem) {
+  .shell {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+
+  .sidebar {
+    position: static;
+    border-bottom: 1px solid var(--rule-soft);
+    padding-bottom: 1rem;
+  }
+
+  .sidebar__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+  }
+}
+
+@media (max-width: 34rem) {
+  .masthead__inner {
+    padding: 0.6rem 1rem;
+  }
+
+  .masthead__tools {
+    width: 100%;
+  }
+
+  .searchbox {
+    flex: 1;
+  }
+
+  .searchbox__input {
+    width: 100%;
+  }
+}
+
+/* ------------------------------------------------------------ article ---- */
+
+.article {
+  max-width: var(--measure);
+}
+
+.article__header {
+  margin-bottom: 1.25rem;
+}
+
+.article h1,
+.page-title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(1.9rem, 1.4rem + 2vw, 2.5rem);
+  line-height: 1.2;
+  margin: 0 0 0.35rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.article__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: var(--fg-muted);
+  margin: 0;
+}
+
+.chip {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.75rem;
+  background: var(--bg-sunken);
+  border-radius: 999px;
+  color: var(--fg-muted);
+}
+
+a.chip:hover {
+  background: var(--rule);
+  text-decoration: none;
+}
+
+.article__body {
+  /* Establishes the containing block the infobox floats within. */
+  overflow: visible;
+}
+
+.article__body h2,
+.article__body h3,
+.article__body h4 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  line-height: 1.25;
+  scroll-margin-top: 5rem;
+}
+
+.article__body h2 {
+  font-size: 1.6rem;
+  margin: 2.2rem 0 0.7rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid var(--rule-soft);
+  clear: none;
+}
+
+.article__body h3 {
+  font-size: 1.25rem;
+  margin: 1.6rem 0 0.5rem;
+}
+
+.article__body h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  font-family: var(--font-body);
+  margin: 1.3rem 0 0.4rem;
+}
+
+.article__body p {
+  margin: 0 0 1rem;
+}
+
+.article__body ul,
+.article__body ol {
+  margin: 0 0 1rem;
+  padding-left: 1.5rem;
+}
+
+.article__body li {
+  margin: 0.25rem 0;
+}
+
+.article__body blockquote {
+  margin: 1.2rem 0;
+  padding: 0.2rem 0 0.2rem 1rem;
+  border-left: 3px solid var(--rule);
+  color: var(--fg-muted);
+}
+
+.article__body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.2rem 0;
+  font-size: 0.93rem;
+}
+
+.article__body th,
+.article__body td {
+  border: 1px solid var(--rule-soft);
+  padding: 0.45rem 0.65rem;
+  text-align: left;
+}
+
+.article__body thead th {
+  background: var(--bg-subtle);
+  font-weight: 700;
+}
+
+/* Wide tables scroll inside their own box rather than widening the page. */
+.table-scroll {
+  overflow-x: auto;
+}
+
+.heading-anchor {
+  margin-left: 0.4rem;
+  font-size: 0.75em;
+  color: var(--fg-muted);
+  opacity: 0;
+  transition: opacity 0.12s ease-in-out;
+}
+
+h2:hover .heading-anchor,
+h3:hover .heading-anchor,
+h4:hover .heading-anchor,
+.heading-anchor:focus-visible {
+  opacity: 1;
+  text-decoration: none;
+}
+
+/* ---------------------------------------------------------------- math ---- */
+
+/*
+ * Long display equations are the single most common cause of horizontal page scroll
+ * on phones. Let the equation scroll inside its own box instead.
+ */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.5rem 0;
+}
+
+.katex {
+  /* KaTeX defaults slightly larger than surrounding text; this evens it out. */
+  font-size: 1.05em;
+}
+
+/* ------------------------------------------------------------ infobox ---- */
+
+.infobox {
+  float: right;
+  clear: right;
+  width: 17rem;
+  margin: 0 0 1rem 1.5rem;
+  padding: 0.75rem 0.9rem;
+  background: var(--bg-subtle);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.infobox__title {
+  margin: 0 0 0.5rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  text-align: center;
+}
+
+.infobox__body > :first-child {
+  margin-top: 0;
+}
+
+.infobox__body > :last-child {
+  margin-bottom: 0;
+}
+
+.infobox__body p {
+  margin: 0 0 0.5rem;
+}
+
+@media (max-width: 46rem) {
+  .infobox {
+    float: none;
+    width: auto;
+    margin: 0 0 1.25rem;
+  }
+}
+
+/* --------------------------------------------------------------- toc ---- */
+
+.toc {
+  display: inline-block;
+  min-width: 14rem;
+  max-width: 100%;
+  margin: 0 0 1.5rem;
+  padding: 0.7rem 1.1rem 0.8rem;
+  background: var(--bg-subtle);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.toc__title {
+  margin: 0 0 0.4rem;
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.toc__list {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.toc__item--depth-3 {
+  list-style-type: lower-alpha;
+  margin-left: 0.9rem;
+  font-size: 0.95em;
+}
+
+/* ----------------------------------------------------------- callouts ---- */
+
+.callout {
+  margin: 1.3rem 0;
+  padding: 0.8rem 1rem;
+  background: var(--bg-subtle);
+  border: 1px solid var(--rule-soft);
+  border-left: 3px solid var(--rule);
+  border-radius: 0 4px 4px 0;
+}
+
+.callout__heading {
+  margin: 0 0 0.4rem;
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.callout__icon {
+  margin-right: 0.4rem;
+  color: var(--fg-muted);
+}
+
+.callout__body > :first-child {
+  margin-top: 0;
+}
+
+.callout__body > :last-child {
+  margin-bottom: 0;
+}
+
+.callout--theorem {
+  border-left-color: #3366cc;
+}
+
+.callout--definition {
+  border-left-color: #2e8b57;
+}
+
+.callout--proof {
+  border-left-color: #6a5acd;
+}
+
+.callout--example {
+  border-left-color: #b8860b;
+}
+
+.callout--warning {
+  border-left-color: #d73333;
+}
+
+/* Proofs traditionally end with a tombstone; this puts one on the last paragraph. */
+.callout--proof .callout__body > p:last-child::after {
+  content: ' ∎';
+  color: var(--fg-muted);
+}
+
+/* ------------------------------------------------------------- embeds ---- */
+
+.figure,
+.embed {
+  margin: 1.5rem 0;
+}
+
+.figure img {
+  display: block;
+  margin: 0 auto;
+  background: var(--bg-subtle);
+  border: 1px solid var(--rule-soft);
+  border-radius: 4px;
+}
+
+.figure--wide img {
+  width: 100%;
+}
+
+.figure figcaption,
+.embed figcaption {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--fg-muted);
+  text-align: center;
+}
+
+.embed--desmos iframe {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--bg);
+}
+
+.embed__source {
+  display: inline-block;
+  margin-left: 0.4rem;
+  white-space: nowrap;
+}
+
+.embed__source::after {
+  content: ' ↗';
+}
+
+.wolfram__card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.75rem 1rem;
+  background: var(--bg-subtle);
+  border: 1px solid var(--rule);
+  border-left: 3px solid #dd1100;
+  border-radius: 0 4px 4px 0;
+  color: inherit;
+}
+
+.wolfram__card:hover {
+  background: var(--bg-sunken);
+  text-decoration: none;
+}
+
+.wolfram__label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--fg-muted);
+}
+
+.wolfram__query {
+  background: none;
+  padding: 0;
+  font-size: 0.95rem;
+  color: var(--link);
+  word-break: break-word;
+}
+
+/* -------------------------------------------------------- topic lists ---- */
+
+.topic-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.topic-links li {
+  margin: 0.5rem 0;
+}
+
+.topic-links__blurb {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--fg-muted);
+}
+
+.article__footer {
+  clear: both;
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+}
+
+.article__footer h2 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 1.3rem;
+  margin: 0 0 0.6rem;
+}
+
+.prereqs {
+  margin: 0 0 1.5rem;
+  padding: 0.7rem 1rem;
+  background: var(--bg-subtle);
+  border: 1px dashed var(--rule);
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.prereqs__title {
+  margin: 0 0 0.35rem;
+  font-weight: 700;
+}
+
+.prereqs .topic-links__blurb {
+  display: none;
+}
+
+.prereqs .topic-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+}
+
+/* --------------------------------------------------------- index pages ---- */
+
+.lede {
+  max-width: var(--measure);
+  font-size: 1.05rem;
+  color: var(--fg-muted);
+  margin: 0 0 1.75rem;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1rem;
+  margin: 0 0 2rem;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.9rem 1rem;
+  background: var(--bg-subtle);
+  border: 1px solid var(--rule-soft);
+  border-radius: 4px;
+}
+
+.card__title {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.card__blurb {
+  margin: 0;
+  font-size: 0.87rem;
+  color: var(--fg-muted);
+}
+
+.card__count {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--fg-muted);
+}
+
+.section-heading {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 1.5rem;
+  margin: 2rem 0 0.75rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid var(--rule-soft);
+}
+
+.index-group {
+  margin-bottom: 1.75rem;
+}
+
+.index-group__letter {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  margin: 0 0 0.4rem;
+  color: var(--fg-muted);
+}
+
+.columns {
+  columns: 2 16rem;
+  column-gap: 2rem;
+}
+
+.columns ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.columns li {
+  break-inside: avoid;
+}
+
+/* ------------------------------------------------------------- search ---- */
+
+.search-page {
+  max-width: var(--measure);
+}
+
+/*
+ * Pagefind's web components ship their own stylesheet and expose --pf-* custom
+ * properties. Mapping those onto our tokens means search inherits the site's theme,
+ * including the dark-mode toggle, without restyling anything by hand.
+ */
+.search-ui {
+  --pf-font: var(--font-body);
+  --pf-background: var(--bg);
+  --pf-text: var(--fg);
+  --pf-text-secondary: var(--fg-muted);
+  --pf-text-muted: var(--fg-muted);
+  --pf-border: var(--rule);
+  --pf-border-focus: var(--accent);
+  --pf-border-radius: 4px;
+  --pf-hover: var(--bg-subtle);
+  --pf-mark: color-mix(in srgb, var(--accent) 22%, transparent);
+  --pf-outline-focus: var(--accent);
+  --pf-result-title-font-size: 1.05rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* -------------------------------------------------------------- print ---- */
+
+@media print {
+  .masthead,
+  .sidebar,
+  .sitefoot,
+  .toc,
+  .skip-link,
+  .heading-anchor,
+  .theme-toggle {
+    display: none !important;
+  }
+
+  .shell {
+    display: block;
+    padding: 0;
+    max-width: none;
+  }
+
+  body {
+    color: #000;
+    background: #fff;
+  }
+
+  .article__body a::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.8em;
+    color: #444;
+  }
+
+  .callout,
+  .infobox {
+    border: 1px solid #999;
+    break-inside: avoid;
+  }
+}

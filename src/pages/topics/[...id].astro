@@ -1,0 +1,43 @@
+---
+import { render } from 'astro:content';
+import TopicLayout from '../../layouts/TopicLayout.astro';
+import { mdxComponents } from '../../components/mdx-components';
+import { getTopics, type Topic } from '../../lib/topics';
+
+export async function getStaticPaths() {
+  const topics = await getTopics();
+  return topics.map((topic) => ({
+    params: { id: topic.id },
+    props: { topic },
+  }));
+}
+
+interface Props {
+  topic: Topic;
+}
+
+const { topic } = Astro.props;
+const { Content, headings } = await render(topic);
+
+/*
+ * House rule: an article is at least two sections deep.
+ *
+ * A Mathepedia page is supposed to walk from intuition down to the technical version,
+ * and a single-section page is a stub wearing an article's clothes. Failing the build
+ * here means a PR that breaks the rule cannot merge green, and the author gets told
+ * exactly which file to fix instead of a reviewer having to notice.
+ */
+const sections = headings.filter((heading) => heading.depth === 2);
+if (sections.length < 2) {
+  throw new Error(
+    `src/content/topics/${topic.id}.mdx has ${sections.length} section heading(s), but ` +
+      `every article needs at least 2.\n` +
+      `Add "## " headings that move from the intuitive explanation down to the more ` +
+      `technical one. See CONTRIBUTING.md.`,
+  );
+}
+---
+
+<TopicLayout topic={topic} headings={headings}>
+  <Content components={mdxComponents} />
+</TopicLayout>

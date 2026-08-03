@@ -1,0 +1,156 @@
+---
+title: Euler's identity
+description: A line-by-line walkthrough of why e^(iπ) + 1 = 0, an equation linking five fundamental constants through a single Taylor series argument.
+category: proof
+tags: [complex analysis, taylor series, constants]
+prerequisites: [derivative]
+seeAlso: [derivative, math-in-the-simpsons]
+updated: 2026-08-02
+---
+
+<Infobox title="Euler's identity">
+**Statement** — $e^{i\pi} + 1 = 0$
+
+**Named for** — Leonhard Euler (1707–1783)
+
+**Constants involved** — $e$, $i$, $\pi$, $1$, $0$
+
+**Special case of** — Euler's formula, $e^{i\theta} = \cos\theta + i\sin\theta$
+</Infobox>
+
+<Callout type="theorem" title="Euler's identity">
+
+$$
+e^{i\pi} + 1 = 0
+$$
+
+</Callout>
+
+Five constants, three operations, no waste. Richard Feynman called it "the most
+remarkable formula in mathematics," and in a 1990 reader poll by *The Mathematical
+Intelligencer* it was voted the most beautiful theorem in mathematics.
+
+The reason it lands is that these five numbers come from five unrelated places. $0$ and
+$1$ are the additive and multiplicative identities. $\pi$ comes from circles. $e$ comes
+from compound interest and growth. $i$ was invented to make $x^2 + 1 = 0$ solvable. They
+have no business being in the same sentence, let alone balancing exactly.
+
+## What the equation is actually claiming
+
+Before proving anything, it is worth being clear about what $e^{i\pi}$ even means.
+
+Raising a number to a whole power means repeated multiplication. Raising it to an
+*imaginary* power does not — you cannot multiply something by itself $i\pi$ times. So
+$e^{i\pi}$ is not a statement about repeated multiplication at all. It is a definition
+extended from the real case, and the extension has to be justified.
+
+The justification runs through the Taylor series, which lets us define $e^x$ in a way
+that never mentions exponents:
+
+$$
+e^x = \sum_{n=0}^{\infty} \frac{x^n}{n!} = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots
+$$
+
+This series converges for every real $x$, and — crucially — every term is built from
+addition, multiplication, and division. All of those work perfectly well for complex
+numbers. So we *define* $e^z$ for complex $z$ by the same series, and check afterwards
+that it behaves the way an exponential should.
+
+## The proof
+
+The argument is Euler's, and it is short enough to follow in one sitting.
+
+<Callout type="proof" title="Proof of Euler's formula">
+
+Start with the three relevant Taylor series, each expanded about $0$:
+
+$$
+\begin{aligned}
+e^x    &= 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \frac{x^4}{4!} + \frac{x^5}{5!} + \cdots \\[6pt]
+\cos x &= 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} + \cdots \\[6pt]
+\sin x &= x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \cdots
+\end{aligned}
+$$
+
+Now substitute $x = i\theta$ into the series for $e^x$:
+
+$$
+e^{i\theta} = 1 + i\theta + \frac{(i\theta)^2}{2!} + \frac{(i\theta)^3}{3!}
+  + \frac{(i\theta)^4}{4!} + \frac{(i\theta)^5}{5!} + \cdots
+$$
+
+The powers of $i$ cycle with period four — $i^1 = i$, $i^2 = -1$, $i^3 = -i$,
+$i^4 = 1$, and then it repeats. Applying that to each term:
+
+$$
+e^{i\theta} = 1 + i\theta - \frac{\theta^2}{2!} - i\frac{\theta^3}{3!}
+  + \frac{\theta^4}{4!} + i\frac{\theta^5}{5!} - \cdots
+$$
+
+Separate the terms with an $i$ from the terms without:
+
+$$
+e^{i\theta} = \underbrace{\left(1 - \frac{\theta^2}{2!} + \frac{\theta^4}{4!} - \cdots\right)}_{\cos\theta}
+  + i\underbrace{\left(\theta - \frac{\theta^3}{3!} + \frac{\theta^5}{5!} - \cdots\right)}_{\sin\theta}
+$$
+
+Both bracketed series are exactly the expansions written above. Therefore
+
+$$
+e^{i\theta} = \cos\theta + i\sin\theta
+$$
+
+Setting $\theta = \pi$ and using $\cos\pi = -1$, $\sin\pi = 0$:
+
+$$
+e^{i\pi} = -1 + i \cdot 0 = -1
+$$
+
+Adding $1$ to both sides gives $e^{i\pi} + 1 = 0$.
+
+</Callout>
+
+<Wolfram query="e^(i*pi)" />
+
+### The step that needs justifying
+
+Splitting an infinite series into two infinite series and rearranging the terms is not
+free. Rearrangement can change the sum of a conditionally convergent series — the
+**Riemann rearrangement theorem** says that a conditionally convergent series can be
+reordered to converge to *any* value you like, which is as pathological as it sounds.
+
+The step is legitimate here because $\sum \frac{|z|^n}{n!}$ converges for every complex
+$z$, making the exponential series *absolutely* convergent. Absolute convergence is
+precisely the condition under which rearrangement is safe.
+
+Euler himself did not have this justification; rigorous convergence theory arrived
+roughly a century later with Cauchy and Weierstrass. He proceeded on formal manipulation
+and correct instinct, and turned out to be right.
+
+## What it means geometrically
+
+Euler's formula says that $e^{i\theta}$ traces the unit circle in the complex plane, with
+$\theta$ as the angle from the positive real axis. Multiplying by $e^{i\theta}$ *is*
+rotation by $\theta$.
+
+Read that way, the identity stops being mystical. Setting $\theta = \pi$ means rotating
+half a turn, and a half turn takes $1$ to $-1$. The equation $e^{i\pi} = -1$ says:
+
+> Rotating the number $1$ by half a turn about the origin lands you on $-1$.
+
+Which is obvious. The remarkable part is not the geometric claim — it is that the
+exponential function, defined by a series about growth and compound interest, turns out
+to encode rotation.
+
+This connection is why the identity is genuinely load-bearing rather than merely pretty.
+Writing oscillations as complex exponentials converts trigonometry into algebra, and it
+underpins the Fourier transform, AC circuit analysis, quantum mechanics, and signal
+processing. The related identity $e^{2\pi i} = 1$ makes the same point more starkly: a
+full rotation returns you to where you started.
+
+<Callout type="note">
+A common follow-up: since $e^{2\pi i} = 1 = e^0$, can we conclude $2\pi i = 0$? No — the
+complex exponential is not injective. It is periodic with period $2\pi i$, so
+$e^z = e^w$ implies $z - w$ is an integer multiple of $2\pi i$, not that $z = w$. This
+is also why the complex logarithm is multi-valued.
+</Callout>

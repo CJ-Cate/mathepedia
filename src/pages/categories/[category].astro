@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { CATEGORIES, CATEGORY_IDS, getTopics, type CategoryId, type Topic } from '../../lib/topics';
+import { topicHref } from '../../lib/url';
+
+export async function getStaticPaths() {
+  const topics = await getTopics();
+
+  // Every category gets a page even when it is empty, so the sidebar links never 404
+  // and an empty category reads as an invitation rather than a broken link.
+  return CATEGORY_IDS.map((category) => ({
+    params: { category },
+    props: {
+      category,
+      entries: topics.filter((topic) => topic.data.category === category),
+    },
+  }));
+}
+
+interface Props {
+  category: CategoryId;
+  entries: Topic[];
+}
+
+const { category, entries } = Astro.props;
+const meta = CATEGORIES[category];
+---
+
+<BaseLayout title={meta.label} description={meta.blurb} path={`/categories/${category}/`}>
+  <h1 class="page-title">{meta.label}</h1>
+  <p class="lede">{meta.blurb}</p>
+
+  {
+    entries.length > 0 ? (
+      <ul class="topic-links">
+        {entries.map((topic) => (
+          <li>
+            <a href={topicHref(topic.id)}>{topic.data.title}</a>
+            <span class="topic-links__blurb">{topic.data.description}</span>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p>
+        Nothing here yet. If you know this material, this category is wide open — see
+        CONTRIBUTING.md in the repository.
+      </p>
+    )
+  }
+</BaseLayout>

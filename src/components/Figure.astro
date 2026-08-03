@@ -1,0 +1,41 @@
+---
+import { href } from '../lib/url';
+
+/**
+ * An image with a caption.
+ *
+ *   <Figure src="/images/unit-circle.svg" alt="The unit circle with common angles marked" width={480} height={480}>
+ *     Common angles on the unit circle.
+ *   </Figure>
+ *
+ * Put the file in `public/images/`. Write the `src` as if the site were at the root —
+ * the deployment base path is added for you.
+ *
+ * `width` and `height` are the image's intrinsic pixel dimensions. Supplying them lets
+ * the browser reserve the right space before the image loads, so the article does not
+ * jump around as the reader scrolls.
+ */
+interface Props {
+  src: string;
+  /** Describe the image for someone who cannot see it. Required — not decorative. */
+  alt: string;
+  width?: number;
+  height?: number;
+  /** Render at full article width rather than centred at natural size. */
+  wide?: boolean;
+}
+
+const { src, alt, width, height, wide = false } = Astro.props;
+
+if (!alt?.trim()) {
+  throw new Error(
+    `<Figure src="${src}" /> is missing an \`alt\` description. Every diagram on ` +
+      `Mathepedia needs one — a reader using a screen reader gets nothing otherwise.`,
+  );
+}
+---
+
+<figure class:list={['figure', { 'figure--wide': wide }]}>
+  <img src={href(src)} alt={alt} width={width} height={height} loading="lazy" decoding="async" />
+  <figcaption><slot /></figcaption>
+</figure>

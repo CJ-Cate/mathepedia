@@ -1,0 +1,159 @@
+---
+import SearchBox from '../components/SearchBox.astro';
+import { CATEGORIES, CATEGORY_IDS } from '../lib/topics';
+import { categoryHref, href } from '../lib/url';
+
+import 'katex/dist/katex.min.css';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Site-root-relative path of this page, for the canonical URL. */
+  path: string;
+}
+
+const { title, description, path } = Astro.props;
+
+// Serving from the root means this must be the user-page repository. If the site moves
+// to a project page, update this alongside `BASE` in astro.config.mjs.
+const REPO_URL = 'https://github.com/cj-cate/cj-cate.github.io';
+
+const SITE_NAME = 'Mathepedia';
+const TAGLINE = 'The free math encyclopedia';
+const DEFAULT_DESCRIPTION =
+  'A free, open encyclopedia of mathematics — concepts, proofs, calculators, and math in pop culture.';
+
+const pageTitle = title === SITE_NAME ? `${SITE_NAME} — ${TAGLINE}` : `${title} — ${SITE_NAME}`;
+const pageDescription = description ?? DEFAULT_DESCRIPTION;
+const canonical = new URL(href(path), Astro.site ?? Astro.url).toString();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={href('/favicon.svg')} type="image/svg+xml" />
+    <link rel="sitemap" href={href('/sitemap-index.xml')} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+
+    <!--
+      Applies the saved theme before first paint. Without this the page renders light
+      and then flips to dark, which is worse than having no toggle at all.
+    -->
+    <script is:inline>
+      (() => {
+        try {
+          const saved = localStorage.getItem('mathepedia-theme');
+          if (saved === 'light' || saved === 'dark') {
+            document.documentElement.dataset.theme = saved;
+          }
+        } catch {
+          /* private browsing, or storage disabled — fall back to the OS preference */
+        }
+      })();
+    </script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="masthead">
+      <div class="masthead__inner">
+        <a class="masthead__brand" href={href('/')}>
+          <span class="masthead__logo" aria-hidden="true">∮</span>
+          <span class="masthead__names">
+            <span class="masthead__title">{SITE_NAME}</span>
+            <span class="masthead__tagline">{TAGLINE}</span>
+          </span>
+        </a>
+
+        <div class="masthead__tools">
+          <SearchBox />
+          <button
+            class="theme-toggle"
+            type="button"
+            data-theme-toggle
+            aria-label="Switch between light and dark theme"
+          >
+            <span class="theme-toggle__icon" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="shell">
+      <nav class="sidebar" aria-label="Site">
+        <p class="sidebar__heading">Navigation</p>
+        <ul class="sidebar__list">
+          <li><a href={href('/')}>Main page</a></li>
+          <li><a href={href('/all/')}>All topics</a></li>
+          <li><a href={href('/categories/')}>Categories</a></li>
+          <li><a href={href('/search/')}>Search</a></li>
+        </ul>
+
+        <p class="sidebar__heading">Browse</p>
+        <ul class="sidebar__list">
+          {
+            CATEGORY_IDS.map((id) => (
+              <li>
+                <a href={categoryHref(id)}>{CATEGORIES[id].label}</a>
+              </li>
+            ))
+          }
+        </ul>
+
+        <p class="sidebar__heading">Contribute</p>
+        <ul class="sidebar__list">
+          <li>
+            <a href={REPO_URL} rel="noopener">Source on GitHub</a>
+          </li>
+          <li>
+            <a href={`${REPO_URL}/blob/main/CONTRIBUTING.md`} rel="noopener">Writing an article</a>
+          </li>
+        </ul>
+      </nav>
+
+      <main class="content" id="main">
+        <slot />
+      </main>
+    </div>
+
+    <footer class="sitefoot">
+      <p>
+        {SITE_NAME} is a static, open-source wiki. Text is free to reuse; corrections and new
+        articles are welcome as pull requests.
+      </p>
+    </footer>
+
+    <script>
+      // Theme toggle. Reads the current state from the OS when nothing is saved yet, so
+      // the first click always flips away from what the reader is actually looking at.
+      const root = document.documentElement;
+      const button = document.querySelector('[data-theme-toggle]');
+
+      button?.addEventListener('click', () => {
+        const current =
+          root.dataset.theme ??
+          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        const next = current === 'dark' ? 'light' : 'dark';
+        root.dataset.theme = next;
+        try {
+          localStorage.setItem('mathepedia-theme', next);
+        } catch {
+          /* nothing to do — the toggle still works for this page view */
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+---
+/**
+ * The summary card that floats at the top-right of a wiki article.
+ *
+ *   <Infobox title="Derivative">
+ *     **Notation** — $f'(x)$, $\frac{dy}{dx}$
+ *
+ *     **Field** — Calculus
+ *   </Infobox>
+ *
+ * The body is ordinary Markdown, so LaTeX and links work inside it. Keep it to a handful
+ * of rows; anything longer belongs in the article itself.
+ *
+ * On narrow screens the box stops floating and sits above the article text.
+ */
+interface Props {
+  title?: string;
+}
+
+const { title } = Astro.props;
+---
+
+<aside class="infobox" role="complementary" aria-label={title ? `${title} summary` : 'Summary'}>
+  {title && <p class="infobox__title">{title}</p>}
+  <div class="infobox__body">
+    <slot />
+  </div>
+</aside>

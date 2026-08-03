@@ -1,0 +1,76 @@
+---
+import type { MarkdownHeading } from 'astro';
+import BaseLayout from './BaseLayout.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import TopicLinks from '../components/TopicLinks.astro';
+import { CATEGORIES, formatDate, type Topic } from '../lib/topics';
+import { categoryHref } from '../lib/url';
+
+interface Props {
+  topic: Topic;
+  headings: MarkdownHeading[];
+}
+
+const { topic, headings } = Astro.props;
+const { title, description, category, tags, prerequisites, seeAlso, updated, draft } = topic.data;
+
+const categoryMeta = CATEGORIES[category];
+---
+
+<BaseLayout title={title} description={description} path={`/topics/${topic.id}/`}>
+  <article class="article">
+    <header class="article__header">
+      <h1>{title}</h1>
+      <p class="article__meta">
+        <a class="chip" href={categoryHref(category)}>{categoryMeta.singular}</a>
+        {draft && <span class="chip">Draft</span>}
+        {updated && <span>Last updated {formatDate(updated)}</span>}
+      </p>
+    </header>
+
+    {
+      prerequisites.length > 0 && (
+        <section class="prereqs" aria-label="Suggested reading first">
+          <p class="prereqs__title">Read first</p>
+          <TopicLinks ids={prerequisites} field="prerequisites" sourceId={topic.id} />
+        </section>
+      )
+    }
+
+    <TableOfContents headings={headings} />
+
+    {/*
+      `data-pagefind-body` scopes the search index to the article itself. Without it
+      Pagefind indexes the masthead and sidebar on every page, and searching for
+      "Categories" returns all 40 articles.
+    */}
+    <div
+      class="article__body"
+      data-pagefind-body
+      data-pagefind-meta={`category:${categoryMeta.singular}`}
+    >
+      <slot />
+    </div>
+
+    <footer class="article__footer">
+      {
+        seeAlso.length > 0 && (
+          <>
+            <h2>See also</h2>
+            <TopicLinks ids={seeAlso} field="seeAlso" sourceId={topic.id} />
+          </>
+        )
+      }
+
+      {
+        tags.length > 0 && (
+          <p class="article__meta" style="margin-top:1rem">
+            {tags.map((tag) => (
+              <span class="chip">{tag}</span>
+            ))}
+          </p>
+        )
+      }
+    </footer>
+  </article>
+</BaseLayout>

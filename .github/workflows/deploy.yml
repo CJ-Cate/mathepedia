@@ -1,0 +1,72 @@
+name: Build and deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Let an in-flight deployment finish rather than cancelling it half-written.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  # Runs on pull requests, including from forks. Deliberately uses no Pages actions:
+  # a fork PR gets a read-only token and cannot upload a Pages artifact, so doing the
+  # validation separately is what lets outside contributors get a green check.
+  validate:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Fails on an article with fewer than two sections, an unknown `seeAlso` id,
+      # a malformed embed, or invalid frontmatter.
+      - name: Build
+        run: npm run build
+
+      # Dead links between pages survive a successful build, so they need their own
+      # pass over the generated HTML.
+      - name: Check internal links
+        run: node scripts/check-links.mjs
+
+  build:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Build site
+        uses: withastro/action@v6
+        with:
+          node-version: 22
+
+      - name: Check internal links
+        run: node scripts/check-links.mjs
+
+  deploy:
+    needs: build
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

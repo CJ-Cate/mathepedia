@@ -1,0 +1,44 @@
+---
+/**
+ * A boxed aside: theorems, proofs, definitions, worked examples, warnings.
+ *
+ *   <Callout type="theorem" title="Fundamental Theorem of Calculus">
+ *     If $f$ is continuous on $[a, b]$ then ...
+ *   </Callout>
+ *
+ * Leave a blank line after the opening tag so the body is parsed as Markdown.
+ */
+const TYPES = {
+  theorem: { label: 'Theorem', icon: '§' },
+  proof: { label: 'Proof', icon: '∎' },
+  definition: { label: 'Definition', icon: '≝' },
+  example: { label: 'Example', icon: '›' },
+  note: { label: 'Note', icon: 'ℹ' },
+  warning: { label: 'Careful', icon: '⚠' },
+} as const;
+
+interface Props {
+  type?: keyof typeof TYPES;
+  /** Replaces the default label, e.g. "Theorem (Euclid)". */
+  title?: string;
+}
+
+const { type = 'note', title } = Astro.props;
+
+const meta = TYPES[type];
+if (!meta) {
+  throw new Error(
+    `<Callout type="${type}"> is not a known type. Use one of: ${Object.keys(TYPES).join(', ')}.`,
+  );
+}
+---
+
+<aside class={`callout callout--${type}`}>
+  <p class="callout__heading">
+    <span class="callout__icon" aria-hidden="true">{meta.icon}</span>
+    {title ?? meta.label}
+  </p>
+  <div class="callout__body">
+    <slot />
+  </div>
+</aside>

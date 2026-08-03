@@ -1,0 +1,77 @@
+---
+import { getTopics } from '../lib/topics';
+import { topicHref } from '../lib/url';
+
+/**
+ * Renders a list of links from topic ids, used for both `prerequisites` and `seeAlso`.
+ *
+ * Ids are resolved against the collection at build time. Pointing at a topic that does
+ * not exist fails the build rather than shipping a dead link — for a wiki that anyone
+ * can send a PR to, a typo in frontmatter is the most likely kind of rot.
+ */
+interface Props {
+  ids: string[];
+  /** Frontmatter field name, so the error message says where to look. */
+  field: string;
+  /** Article the ids came from, for the same reason. */
+  sourceId: string;
+}
+
+const { ids, field, sourceId } = Astro.props;
+
+const topics = await getTopics();
+const byId = new Map(topics.map((topic) => [topic.id, topic]));
+
+/**
+ * Levenshtein distance, so a misspelled id gets a useful suggestion. Substring matching
+ * is not enough — "derivitive" shares no substring boundary with "derivative" but is
+ * one edit away, and that transposed-vowel case is exactly the typo people make.
+ */
+function editDistance(a: string, b: string): number {
+  let previous = Array.from({ length: b.length + 1 }, (_, i) => i);
+  for (let i = 1; i <= a.length; i++) {
+    const current = [i];
+    for (let j = 1; j <= b.length; j++) {
+      current[j] = Math.min(
+        previous[j]! + 1,
+        current[j - 1]! + 1,
+        previous[j - 1]! + (a[i - 1] === b[j - 1] ? 0 : 1),
+      );
+    }
+    previous = current;
+  }
+  return previous[b.length]!;
+}
+
+const resolved = ids.map((id) => {
+  const topic = byId.get(id);
+  if (!topic) {
+    // Allow roughly one edit per four characters, so short ids do not match everything.
+    const threshold = Math.max(2, Math.floor(id.length / 4));
+    const suggestions = topics
+      .map((candidate) => ({ id: candidate.id, distance: editDistance(id, candidate.id) }))
+      .filter(({ id: candidate, distance }) => distance <= threshold || candidate.includes(id))
+      .sort((a, b) => a.distance - b.distance)
+      .slice(0, 3)
+      .map((match) => match.id);
+    throw new Error(
+      `src/content/topics/${sourceId}.mdx lists "${id}" under \`${field}\`, but no such ` +
+        `topic exists.` +
+        (suggestions.length ? ` Did you mean: ${suggestions.join(', ')}?` : '') +
+        ` Available ids are the file names in src/content/topics/ without the extension.`,
+    );
+  }
+  return topic;
+});
+---
+
+<ul class="topic-links">
+  {
+    resolved.map((topic) => (
+      <li>
+        <a href={topicHref(topic.id)}>{topic.data.title}</a>
+        <span class="topic-links__blurb">{topic.data.description}</span>
+      </li>
+    ))
+  }
+</ul>

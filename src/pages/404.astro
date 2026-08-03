@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { href } from '../lib/url';
+---
+
+<BaseLayout title="Page not found" description="This article does not exist yet." path="/404/">
+  <h1 class="page-title">This article does not exist yet</h1>
+  <p class="lede">
+    Nothing lives at this address. It may have been renamed, or it may simply be an article
+    nobody has written — which, on a wiki that takes pull requests, is an opportunity.
+  </p>
+
+  <ul class="topic-links">
+    <li><a href={href('/all/')}>Browse all topics</a></li>
+    <li><a href={href('/categories/')}>Browse by category</a></li>
+    <li><a href={href('/search/')}>Search the wiki</a></li>
+  </ul>
+</BaseLayout>

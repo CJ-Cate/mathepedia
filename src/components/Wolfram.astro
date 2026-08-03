@@ -1,0 +1,70 @@
+---
+/**
+ * Two ways to hand a reader off to Wolfram|Alpha.
+ *
+ * 1. Query card (preferred) — a self-contained link-out. No third-party JavaScript,
+ *    nothing to break, works with scripts disabled:
+ *
+ *      <Wolfram query="derivative of x^3" />
+ *
+ * 2. Embedded widget — loads Wolfram's widget script into the page. Use sparingly;
+ *    it is third-party JS and it slows the page down. Get the id from
+ *    wolframalpha.com/widgets after building or picking a widget:
+ *
+ *      <Wolfram widgetId="c1b0591c0d7b7a0e4a2f4a4a783dcdba" />
+ */
+interface Props {
+  /** A Wolfram|Alpha query, written the way you would type it into the site. */
+  query?: string;
+  /** A Wolfram|Alpha widget id, for a live embedded widget. */
+  widgetId?: string;
+  /** Overrides the card's heading. */
+  label?: string;
+}
+
+const { query, widgetId, label } = Astro.props;
+
+if (!query && !widgetId) {
+  throw new Error('<Wolfram /> needs either a `query` or a `widgetId` prop.');
+}
+
+if (widgetId && !/^[A-Za-z0-9]+$/.test(widgetId)) {
+  throw new Error(`<Wolfram widgetId="${widgetId}" /> is not a valid widget id.`);
+}
+
+const queryUrl = query
+  ? `https://www.wolframalpha.com/input?i=${encodeURIComponent(query)}`
+  : null;
+const widgetSrc = widgetId
+  ? `https://www.wolframalpha.com/widget/widget.jsp?id=${widgetId}`
+  : null;
+---
+
+{
+  queryUrl && (
+    <aside class="embed embed--wolfram">
+      <a class="wolfram__card" href={queryUrl} target="_blank" rel="noopener noreferrer">
+        <span class="wolfram__label">{label ?? 'Compute this on Wolfram|Alpha'}</span>
+        <code class="wolfram__query">{query}</code>
+      </a>
+      <slot />
+    </aside>
+  )
+}
+
+{
+  widgetSrc && (
+    <div class="embed embed--wolfram-widget">
+      <script is:inline type="text/javascript" src={widgetSrc} />
+      <noscript>
+        <p>
+          This Wolfram|Alpha widget needs JavaScript.{' '}
+          <a href="https://www.wolframalpha.com/" target="_blank" rel="noopener noreferrer">
+            Open Wolfram|Alpha
+          </a>{' '}
+          instead.
+        </p>
+      </noscript>
+    </div>
+  )
+}

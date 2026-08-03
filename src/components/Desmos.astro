@@ -1,0 +1,53 @@
+---
+/**
+ * Embeds an interactive Desmos graph.
+ *
+ *   <Desmos id="9x3ftbrwzq" height={420}>
+ *     The tangent line at $x = a$, with $a$ on a slider.
+ *   </Desmos>
+ *
+ * Get the id from the graph's URL: desmos.com/calculator/**9x3ftbrwzq**
+ * The graph must be saved and public.
+ *
+ * The iframe is lazy-loaded, so a page full of graphs still renders instantly and
+ * nothing is requested from Desmos until the reader scrolls near it.
+ */
+interface Props {
+  /** The Desmos graph hash from its URL. */
+  id: string;
+  /** Embed height in pixels. */
+  height?: number;
+  /** Accessible name for the iframe. Defaults to the caption-agnostic fallback. */
+  title?: string;
+}
+
+const { id, height = 420, title } = Astro.props;
+
+// Authored content, but a bad id silently produces a broken embed that nobody notices
+// in review. Failing the build is louder and cheaper.
+if (!/^[A-Za-z0-9]+$/.test(id)) {
+  throw new Error(
+    `<Desmos id="${id}" /> is not a valid graph id. Expected the hash from a ` +
+      `desmos.com/calculator/<hash> URL, e.g. id="9x3ftbrwzq".`,
+  );
+}
+
+const embedSrc = `https://www.desmos.com/calculator/${id}?embed`;
+const pageSrc = `https://www.desmos.com/calculator/${id}`;
+---
+
+<figure class="embed embed--desmos">
+  <iframe
+    src={embedSrc}
+    title={title ?? 'Interactive Desmos graph'}
+    height={height}
+    loading="lazy"
+    allowfullscreen
+    referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  <figcaption>
+    <slot />
+    <a class="embed__source" href={pageSrc} target="_blank" rel="noopener noreferrer">
+      Open in Desmos
+    </a>
+  </figcaption>
+</figure>

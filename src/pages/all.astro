@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getTopics, groupByInitial } from '../lib/topics';
+import { topicHref } from '../lib/url';
+
+const topics = await getTopics();
+const groups = groupByInitial(topics);
+---
+
+<BaseLayout
+  title="All topics"
+  description="Every article on Mathepedia, listed alphabetically."
+  path="/all/"
+>
+  <h1 class="page-title">All topics</h1>
+  <p class="lede">
+    Every article on Mathepedia, {topics.length} in total, listed alphabetically.
+  </p>
+
+  {
+    [...groups.entries()].map(([letter, entries]) => (
+      <section class="index-group">
+        <h2 class="index-group__letter">{letter}</h2>
+        <div class="columns">
+          <ul>
+            {entries.map((topic) => (
+              <li>
+                <a href={topicHref(topic.id)}>{topic.data.title}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    ))
+  }
+
+  {topics.length === 0 && <p>No articles yet.</p>}
+</BaseLayout>

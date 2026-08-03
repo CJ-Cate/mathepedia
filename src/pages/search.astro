@@ -1,0 +1,52 @@
+---
+import PagefindConfig from 'astro-pagefind/components/PagefindConfig.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { href } from '../lib/url';
+
+/*
+ * A full results page rather than the dropdown-style `<pagefind-searchbox>`: readers
+ * arriving here have already committed to searching, and want a scannable list with
+ * excerpts, not a combobox they have to arrow through.
+ *
+ * PagefindConfig points the components at the index that `astro-pagefind` generates
+ * during the build, base path included.
+ */
+---
+
+<BaseLayout title="Search" description="Search every article on Mathepedia." path="/search/">
+  <div class="search-page">
+    <h1 class="page-title">Search</h1>
+    <p class="lede">
+      Full-text search across every article. The index is built alongside the site, so
+      searching never contacts a server.
+    </p>
+
+    <PagefindConfig />
+
+    <div class="search-ui">
+      <pagefind-input placeholder="Search Mathepedia" autofocus></pagefind-input>
+      <pagefind-summary></pagefind-summary>
+      <pagefind-results></pagefind-results>
+    </div>
+
+    <noscript>
+      <p>
+        Search needs JavaScript. You can browse
+        <a href={href('/all/')}>the full article list</a> or
+        <a href={href('/categories/')}>the categories</a> instead — both are plain pages.
+      </p>
+    </noscript>
+  </div>
+</BaseLayout>
+
+<script>
+  import { getInstanceManager } from '@pagefind/component-ui';
+
+  // The masthead search box is a plain GET form, so arriving from any page lands here as
+  // /search/?q=whatever. Replay that into Pagefind so the reader sees results immediately
+  // instead of having to retype a query they already entered.
+  const query = new URLSearchParams(window.location.search).get('q');
+  if (query) {
+    getInstanceManager().getInstance().triggerSearch(query);
+  }
+</script>

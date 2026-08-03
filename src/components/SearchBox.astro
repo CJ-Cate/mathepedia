@@ -1,0 +1,28 @@
+---
+import { href } from '../lib/url';
+
+/**
+ * The header search field. It is a plain GET form pointing at `/search`, so it works
+ * before any JavaScript loads and degrades to a normal page navigation if Pagefind
+ * fails to initialise. The `/search` page picks the query up from `?q=`.
+ */
+interface Props {
+  id?: string;
+}
+
+const { id = 'site-search' } = Astro.props;
+---
+
+<form class="searchbox" role="search" action={href('/search/')} method="get">
+  <label class="visually-hidden" for={id}>Search Mathepedia</label>
+  <input
+    class="searchbox__input"
+    id={id}
+    type="search"
+    name="q"
+    placeholder="Search Mathepedia"
+    autocomplete="off"
+    spellcheck="false"
+  />
+  <button class="searchbox__button" type="submit">Search</button>
+</form>

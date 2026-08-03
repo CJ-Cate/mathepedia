@@ -1,0 +1,168 @@
+---
+title: Math in The Simpsons
+description: The Simpsons writers' room has held more advanced mathematics degrees than most university departments, and the blackboards prove it — including two fake Fermat counterexamples built to survive a calculator check.
+category: pop-culture
+tags: [television, fermat, number theory, recreational mathematics]
+seeAlso: [ti-84-plus, euler-identity]
+updated: 2026-08-02
+---
+
+<Infobox title="Math in The Simpsons">
+**Series run** — 1989–present
+
+**Notable writers** — Al Jean, Ken Keeler, David X. Cohen, Jeff Westbrook
+
+**Best-known gag** — The Fermat near-misses
+
+**Documented in** — *The Simpsons and Their Mathematical Secrets* (Simon Singh, 2013)
+</Infobox>
+
+*The Simpsons* has, at various points, employed a writing staff with a density of
+advanced mathematics degrees that would be respectable in a university department. The
+result is two decades of jokes written for an audience the writers knew would be
+vanishingly small.
+
+The best of them are not jokes *about* mathematics. They are jokes that require you to
+do mathematics to notice they were there.
+
+## The writers' room
+
+The unusual staffing was largely a hiring accident that compounded. **Al Jean**, a
+showrunner across much of the series, entered Harvard at sixteen to study mathematics.
+**Ken Keeler** holds a PhD in applied mathematics from Harvard. **David X. Cohen** studied
+physics at Harvard and took a master's in computer science at Berkeley. **Jeff
+Westbrook** left a computer science research post at Yale to write television.
+
+They mostly wrote ordinary comedy. But the freeze-frame gag — a blackboard visible for a
+second and a half — turned out to be a convenient place to leave things for whoever was
+paying enough attention, and in the pre-streaming era that meant whoever owned a VCR and
+was willing to use the pause button.
+
+The tradition continued into *Futurama*, where Keeler proved a genuinely new theorem
+about permutation groups for an episode plot. The **Futurama theorem** was written for a
+1999 body-swapping story, and it is a real result — published nowhere except a cartoon,
+and cited since in actual group theory literature.
+
+## The Fermat near-misses
+
+The most carefully constructed gags are two equations that appear to disprove
+**Fermat's Last Theorem**.
+
+<Callout type="theorem" title="Fermat's Last Theorem">
+
+No three positive integers $a$, $b$, $c$ satisfy
+
+$$
+a^n + b^n = c^n
+$$
+
+for any integer $n > 2$.
+
+Conjectured by Pierre de Fermat in 1637, proved by Andrew Wiles in 1994.
+
+</Callout>
+
+In "Treehouse of Horror VI" (1995), as Homer drifts through a three-dimensional void, an
+equation floats past:
+
+$$
+1782^{12} + 1841^{12} = 1922^{12}
+$$
+
+Three years later, in "The Wizard of Evergreen Terrace" (1998), a blackboard behind Homer
+reads:
+
+$$
+3987^{12} + 4365^{12} = 4472^{12}
+$$
+
+Both are false — Wiles had already proved that no such equation can be true. What makes
+them worth the trouble is *how* false they are.
+
+### Built to defeat a calculator
+
+David X. Cohen wrote a program to search for near-misses specifically, and the search
+criterion was not "close." It was "close enough to survive the check a viewer would
+actually run."
+
+Take the second equation. The two sides are:
+
+```
+3987^12 + 4365^12 = 63976656349698612616236230953154487896987106
+4472^12           = 63976656348486725806862358322168575784124416
+```
+
+They differ — by about $1.2 \times 10^{33}$, which is an enormous number. But both sides
+have 44 digits, and they agree on the first **ten**.
+
+That number is not a coincidence. A [TI-84 Plus](/topics/ti-84-plus/) displays ten
+significant digits. A viewer in 1998 who paused the tape, typed both sides into the
+calculator on their desk, and compared the results would have seen two identical numbers
+and concluded that Fermat's Last Theorem had just been disproved on network television.
+
+The first equation is tuned the same way: 40 digits, agreeing on the first ten.
+
+<Wolfram query="3987^12 + 4365^12 - 4472^12" />
+
+### Two ways to catch it without a bigger calculator
+
+You do not need arbitrary-precision arithmetic to see that these are false. You need to
+stop comparing magnitudes and start comparing residues.
+
+**The 1995 equation falls to parity.** $1782$ is even and $1841$ is odd, so:
+
+$$
+\underbrace{1782^{12}}_{\text{even}} + \underbrace{1841^{12}}_{\text{odd}} = \text{odd}
+$$
+
+But $1922$ is even, so $1922^{12}$ is even. An odd number cannot equal an even one. The
+equation dies in one line, and Cohen has acknowledged the oversight — the second attempt
+fixed it, choosing $3987$ and $4365$ both odd so the sum is even, matching the even
+$4472^{12}$.
+
+**The 1998 equation falls modulo 9.** A number is congruent mod $9$ to the sum of its
+digits, which makes this checkable by hand:
+
+- $3 + 9 + 8 + 7 = 27$, so $3987 \equiv 0 \pmod 9$
+- $4 + 3 + 6 + 5 = 18$, so $4365 \equiv 0 \pmod 9$
+- $4 + 4 + 7 + 2 = 17 \to 1 + 7 = 8$, so $4472 \equiv -1 \pmod 9$
+
+Therefore the left side is $0^{12} + 0^{12} \equiv 0$, while the right side is
+$(-1)^{12} \equiv 1$. Zero is not one.
+
+<Callout type="note">
+This is the general lesson these gags are built around: agreement in the leading digits
+is not evidence of equality. Two numbers can match to ten places, a hundred places, or a
+million, and still differ. Numerical agreement is a hint to go looking for a proof, never
+a substitute for one.
+</Callout>
+
+## The rest of the blackboard
+
+The Fermat equations are the famous ones, but they share their frames with a lot else.
+
+The same 1995 sequence that carries $1782^{12} + 1841^{12} = 1922^{12}$ also displays
+**P = NP** — a claim about computational complexity that remains, three decades later,
+one of the seven Millennium Prize Problems and worth a million dollars to whoever settles
+it. [Euler's identity](/topics/euler-identity/) appears in the same void.
+
+The 1998 blackboard is the densest. Alongside the Fermat near-miss, Homer works through:
+
+- A calculation of the mass of the Higgs boson, produced roughly fourteen years before
+  CERN measured it. The estimate was in the right region.
+- A topological transformation of a doughnut into a sphere — a joke on Homer's
+  established relationship with doughnuts, and on the fact that this transformation is
+  precisely what topology says you *cannot* do. A torus has one hole and a sphere has
+  none, and no continuous deformation changes that. The blackboard shows him doing it
+  anyway.
+- An expression whose terms sum to a prediction about the universe being closed rather
+  than open.
+
+Elsewhere the register drops. "Bart the Genius" (1990) turns on a calculus joke —
+$\frac{dy}{dr}$ integrated to give $r\,dr\,r$, read aloud as "har de har har." "MoneyBART"
+(2010) puts Lisa in charge of a Little League team armed with sabermetrics, and hangs a
+Fermat reference on the outfield wall.
+
+None of this was ever going to land with a general audience. That is more or less the
+point: the gags were left in for the fraction of viewers equipped to find them, and the
+show carried on without waiting for anyone to catch up.

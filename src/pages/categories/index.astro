@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { CATEGORIES, CATEGORY_IDS, getTopics } from '../../lib/topics';
+import { categoryHref, topicHref } from '../../lib/url';
+
+const topics = await getTopics();
+---
+
+<BaseLayout
+  title="Categories"
+  description="Mathepedia articles grouped by category."
+  path="/categories/"
+>
+  <h1 class="page-title">Categories</h1>
+  <p class="lede">
+    Mathepedia covers more than theory. Alongside the mathematics itself there are proof
+    walkthroughs, calculator references, and a look at where math turns up in pop culture.
+  </p>
+
+  {
+    CATEGORY_IDS.map((id) => {
+      const entries = topics.filter((topic) => topic.data.category === id);
+      return (
+        <section>
+          <h2 class="section-heading">
+            <a href={categoryHref(id)}>{CATEGORIES[id].label}</a>
+          </h2>
+          <p class="card__blurb">{CATEGORIES[id].blurb}</p>
+          {entries.length > 0 ? (
+            <ul class="topic-links">
+              {entries.map((topic) => (
+                <li>
+                  <a href={topicHref(topic.id)}>{topic.data.title}</a>
+                  <span class="topic-links__blurb">{topic.data.description}</span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p class="card__count">No articles yet — this is a good place to start.</p>
+          )}
+        </section>
+      );
+    })
+  }
+</BaseLayout>
