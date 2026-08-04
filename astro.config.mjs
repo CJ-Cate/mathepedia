@@ -11,6 +11,7 @@ import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
 import { rehypeBaseUrl } from './src/lib/rehype-base-url.mjs';
+import { rehypeHeadingHtml } from './src/lib/rehype-heading-html.mjs';
 
 // The site is served from the root, so there is no path prefix to navigate past --
 // locally that is http://localhost:4321/ and in production https://mathepedia.org/.
@@ -49,6 +50,10 @@ export default defineConfig({
           },
         ],
         rehypeKatex,
+        // Snapshots the headings once the math is real markup, so a heading like
+        // "### The Naturals $\Bbb N$" can appear in the contents box as rendered math
+        // instead of the flattened soup Astro would otherwise collect.
+        rehypeHeadingHtml(),
         // Lets article authors write `/topics/derivative/` and have it survive the
         // `/mathepedia/` base path in production.
         rehypeBaseUrl({ base: BASE }),

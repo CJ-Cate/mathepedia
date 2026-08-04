@@ -637,6 +637,20 @@ h4:hover .heading-anchor,
   font-size: 0.95em;
 }
 
+/*
+ * Math in a contents entry.
+ *
+ * KaTeX sizes itself at 1.21x the surrounding text so equations do not look shrunken
+ * next to prose. In a sidebar box that is already at 0.9rem the effect is a symbol
+ * noticeably taller than the words around it, dragging the line height with it, so
+ * scale it back to match. `inherit` on the color keeps the symbol the same blue as the
+ * rest of the link, including on hover and once visited.
+ */
+.toc .katex {
+  font-size: 1em;
+  color: inherit;
+}
+
 /* ----------------------------------------------------------- callouts ---- */
 
 .callout {

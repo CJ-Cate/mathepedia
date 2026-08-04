@@ -9,9 +9,11 @@ import { categoryHref } from '../lib/url';
 interface Props {
   topic: Topic;
   headings: MarkdownHeading[];
+  /** Rendered heading markup keyed by slug. See `src/lib/rehype-heading-html.mjs`. */
+  headingHtml?: Record<string, string>;
 }
 
-const { topic, headings } = Astro.props;
+const { topic, headings, headingHtml } = Astro.props;
 const { title, description, category, tags, prerequisites, seeAlso, updated, draft } = topic.data;
 
 const categoryMeta = CATEGORIES[category];
@@ -37,7 +39,7 @@ const categoryMeta = CATEGORIES[category];
       )
     }
 
-    <TableOfContents headings={headings} />
+    <TableOfContents headings={headings} headingHtml={headingHtml} />
 
     {/*
       `data-pagefind-body` scopes the search index to the article itself. Without it

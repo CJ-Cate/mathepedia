@@ -9,6 +9,21 @@ import { z } from 'astro/zod';
  * If you add a field here, add it to CONTRIBUTING.md too — that file is the one
  * contributors actually read.
  */
+/**
+ * A list field that tolerates a blank YAML key.
+ *
+ * `seeAlso:` with nothing after it parses as `null`, not `undefined`, and Zod's
+ * `.default()` only fires on `undefined` -- so a leftover empty key would otherwise fail
+ * the build with "Expected type `array`, received `object`" (because `typeof null` is
+ * `"object"`), which points nowhere useful. Emptying a field but keeping the key is
+ * normal while editing, so treat blank and absent the same way.
+ */
+const list = () =>
+  z
+    .array(z.string())
+    .nullish()
+    .transform((value) => value ?? []);
+
 const topics = defineCollection({
   loader: glob({ base: './src/content/topics', pattern: '**/*.{md,mdx}' }),
   schema: z.object({
@@ -27,19 +42,29 @@ const topics = defineCollection({
       'reference',
     ]),
 
-    tags: z.array(z.string()).default([]),
+    tags: list(),
 
     /** Topic ids a reader should understand first. Rendered as a "Read first" note. */
-    prerequisites: z.array(z.string()).default([]),
+    prerequisites: list(),
 
     /** Topic ids for further reading. Rendered in the article footer. */
-    seeAlso: z.array(z.string()).default([]),
+    seeAlso: list(),
 
-    /** Bumped by hand when the article changes meaningfully. */
-    updated: z.coerce.date().optional(),
+    /**
+     * Bumped by hand when the article changes meaningfully. Blank is treated as absent:
+     * a bare `updated:` would otherwise coerce through `new Date(null)` and silently
+     * date the article to 1 January 1970.
+     */
+    updated: z.coerce
+      .date()
+      .nullish()
+      .transform((value) => value ?? undefined),
 
     /** Draft articles are visible with `npm run dev` but excluded from the built site. */
-    draft: z.boolean().default(false),
+    draft: z
+      .boolean()
+      .nullish()
+      .transform((value) => value ?? false),
   }),
 });
 

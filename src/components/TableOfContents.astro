@@ -9,9 +9,16 @@ import type { MarkdownHeading } from 'astro';
  */
 interface Props {
   headings: MarkdownHeading[];
+
+  /**
+   * Rendered heading markup keyed by slug, from `rehypeHeadingHtml`. Present whenever the
+   * article came through the Markdown pipeline; `heading.text` is the fallback, which is
+   * correct for headings without math and merely ugly for the ones with it.
+   */
+  headingHtml?: Record<string, string>;
 }
 
-const { headings } = Astro.props;
+const { headings, headingHtml = {} } = Astro.props;
 
 const entries = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
 ---
@@ -25,7 +32,11 @@ const entries = headings.filter((heading) => heading.depth === 2 || heading.dept
       <ol class="toc__list">
         {entries.map((heading) => (
           <li class={`toc__item toc__item--depth-${heading.depth}`}>
-            <a href={`#${heading.slug}`}>{heading.text}</a>
+            {headingHtml[heading.slug] ? (
+              <a href={`#${heading.slug}`} set:html={headingHtml[heading.slug]} />
+            ) : (
+              <a href={`#${heading.slug}`}>{heading.text}</a>
+            )}
           </li>
         ))}
       </ol>

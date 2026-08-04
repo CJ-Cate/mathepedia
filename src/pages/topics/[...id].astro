@@ -17,27 +17,38 @@ interface Props {
 }
 
 const { topic } = Astro.props;
-const { Content, headings } = await render(topic);
+const { Content, headings, remarkPluginFrontmatter } = await render(topic);
+
+/*
+ * Rendered heading markup, keyed by slug, injected by `rehypeHeadingHtml`. It is the only
+ * way the contents box can show a heading like "### The Naturals $\Bbb N$" as math --
+ * Astro's own `headings[].text` has already flattened the equation into unreadable
+ * fragments by the time this route sees it.
+ */
+const headingHtml: Record<string, string> = remarkPluginFrontmatter.headingHtml ?? {};
 
 /*
  * House rule: an article is at least two sections deep.
  *
  * A Mathepedia page is supposed to walk from intuition down to the technical version,
- * and a single-section page is a stub wearing an article's clothes. Failing the build
- * here means a PR that breaks the rule cannot merge green, and the author gets told
- * exactly which file to fix instead of a reviewer having to notice.
+ * and a single-section page is a stub wearing an article's clothes. This is advice
+ * rather than law, though -- a short article that is genuinely finished should still
+ * publish, and a work in progress should still be previewable. So it warns and moves
+ * on: the build stays green, the page renders, and the author sees the nudge in the
+ * build log naming the exact file.
  */
 const sections = headings.filter((heading) => heading.depth === 2);
 if (sections.length < 2) {
-  throw new Error(
-    `src/content/topics/${topic.id}.mdx has ${sections.length} section heading(s), but ` +
-      `every article needs at least 2.\n` +
-      `Add "## " headings that move from the intuitive explanation down to the more ` +
-      `technical one. See CONTRIBUTING.md.`,
+  const file = topic.filePath ?? `src/content/topics/${topic.id}`;
+  console.warn(
+    `[mathepedia] ${file} has ${sections.length} section heading(s); articles read better ` +
+      `with at least 2.\n` +
+      `            Consider "## " headings that move from the intuitive explanation down ` +
+      `to the more technical one. See CONTRIBUTING.md.`,
   );
 }
 ---
 
-<TopicLayout topic={topic} headings={headings}>
+<TopicLayout topic={topic} headings={headings} headingHtml={headingHtml}>
   <Content components={mdxComponents} />
 </TopicLayout>

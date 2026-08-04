@@ -57,8 +57,10 @@ build with a message naming the file and suggesting near matches.
 
 ## The two house rules
 
-**1. At least two `##` sections.** The build fails otherwise, naming your file. A
-one-section page is a stub, and stubs are what make a wiki feel abandoned.
+**1. At least two `##` sections.** The build prints a warning otherwise, naming your file,
+but still publishes the page — so a genuinely short article ships, and a draft stays
+previewable. Treat the warning as a nudge: a one-section page is usually a stub, and stubs
+are what make a wiki feel abandoned.
 
 **2. Sections go from simple to technical, top to bottom.** This is the thing that makes
 Mathepedia different from a textbook, and it is the one rule a build cannot check for you.
@@ -110,6 +112,16 @@ $$
 KaTeX supports most but not all of LaTeX — if something renders as red error text, check
 [the supported functions list](https://katex.org/docs/supported.html). Notably there is no
 `\label`/`\ref`, and no user-defined macros across files.
+
+**In headings** — this works, and the equation renders in the contents box too:
+
+```md
+### The Naturals $\Bbb N$
+```
+
+The heading's anchor is built from the LaTeX source rather than the rendered symbol, so
+that section is linkable at `#the-naturals-bbb-n`. Check the id in the contents box before
+linking to it.
 
 > A literal dollar sign in prose needs escaping: `\$100`.
 
