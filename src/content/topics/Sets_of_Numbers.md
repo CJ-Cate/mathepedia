@@ -10,7 +10,7 @@ updated: 2026-08-03
 ---
 # Introduction
 
-Like many things in life, numbers can sorted into different groupings called sets. The most common set of numbers is likely the set of natural numbers. This set of numbers starts at 1 and continues by increments of 1 forever, but does not contain infinity.
+Like many things in life, numbers can be sorted into different groupings called sets. The most common set of numbers is likely the set of natural numbers. This set of numbers starts at 1 and continues by increments of 1 forever, but does not contain infinity.
 
 $$
 \Bbb N = \{1, 2, 3, 4, 5,\dots\}
