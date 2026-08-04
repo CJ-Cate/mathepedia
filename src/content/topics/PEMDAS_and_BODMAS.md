@@ -45,7 +45,7 @@ Lets look at some examples of how an order of operations acronym is used with th
 $$
 10-5*2 + (2 +4) +2^3 +1 \div 3
 $$
-If we were to blindly execute these operations from left to right (ignoring parenthesis), we would get the incorrect answer of 24. Let us again calculate this expression by following the steps of PEMDAS.
+If we were to blindly execute these operations from left to right (ignoring parenthesis), we would get the incorrect answer of 24 (or possibly $1944 \tfrac{1}{3}$). Let us again calculate this expression by following the steps of PEMDAS.
 1. Parenthesis, execute all steps inside parenthesis
 
    $$10-5*2 + \mathbf{6} +2^3 +1 \div 3$$
@@ -54,16 +54,16 @@ If we were to blindly execute these operations from left to right (ignoring pare
    $$ 10-5*2 + 6 + \mathbf{8} +1 \div 3$$
 3. Multiply & Divide
 
-   $$ 10- \mathbf{10} + 6 + 8 + \mathbf{\frac{1}{3}}$$
+   $$ 10- \mathbf{10} + 6 + 8 + \mathbf{\tfrac{1}{3}}$$
 4. Add & Subtract
 
-   $$ 14 \frac{1}{3}$$
+   $$ 14\tfrac{1}{3}$$
 
 When solving an expression with PEMDAS it is important to recognise that the first P (or B in BODMAS) is recursive, meaning that when you solve an expression inside of brackets that you must continue to apply the PEMDAS order of operations.
 
 Incorrect, does not follow recursive order of operations:
 
-$$ 2*1+(2+3*4)\not=22 $$
+$$ 2*1+(2+3*4) \neq 22 $$
 
 Correct, follows recursive order of operations:
 
