@@ -23,3 +23,6 @@ pnpm-debug.log*
 Thumbs.db
 
 TOPICS.txt
+
+# personal Claude Code settings
+.claude/settings.local.json
