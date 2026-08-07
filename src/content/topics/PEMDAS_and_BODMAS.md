@@ -4,7 +4,6 @@ description: Mnemonic devices to help remember elemtary order of operations.
 category: concept
 tags: [addition, subtraction, multiplcation, division, exponentiation]
 seeAlso: []
-updated: 2026-08-03
 ---
 
 The mnemonic device PEMDAS and BODMAS are used to remember the order of operations for elementary functions in mathematics. 

@@ -6,7 +6,6 @@ tags:
  - set-theory
  - imaginary-numbers
 seeAlso:
-updated: 2026-08-03
 ---
 # Introduction
 
