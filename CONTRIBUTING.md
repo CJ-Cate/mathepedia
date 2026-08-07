@@ -22,7 +22,6 @@ description: The closed-form solution to any second-degree polynomial equation, 
 category: concept
 tags: [algebra, polynomials]
 seeAlso: [derivative]
-updated: 2026-08-02
 ---
 
 Opening paragraph. Say what the thing *is*, in plain language, before any notation.
@@ -48,8 +47,11 @@ That is a complete, publishable article.
 | `tags` | no | Free-form keywords, shown at the foot of the article |
 | `prerequisites` | no | Topic ids to read first. Rendered as a "Read first" box |
 | `seeAlso` | no | Topic ids for further reading. Rendered in the footer |
-| `updated` | no | `YYYY-MM-DD`. Drives the "Recently updated" list on the home page |
 | `draft` | no | `true` keeps the article out of the deployed site while you work |
+
+"Last updated" on the article page and the home page's "Recently updated" list are both
+generated automatically from git history at build time — there is no field for this, and
+nothing to remember to bump.
 
 A **topic id** is a file name without its extension. `prerequisites: [derivative]` refers
 to `src/content/topics/derivative.mdx`. Pointing at a topic that does not exist fails the

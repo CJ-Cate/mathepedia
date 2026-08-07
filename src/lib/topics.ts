@@ -1,4 +1,5 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
+import { getLastUpdated } from './git-last-updated';
 
 export type Topic = CollectionEntry<'topics'>;
 
@@ -56,12 +57,20 @@ export async function getTopicsByCategory(category: CategoryId): Promise<Topic[]
   return (await getTopics()).filter((topic) => topic.data.category === category);
 }
 
-/** Most recently updated first; topics with no `updated` date sort last. */
-export async function getRecentlyUpdated(limit = 5): Promise<Topic[]> {
+/** Git-derived last-updated date for a topic, or undefined if it can't be determined. */
+export function getUpdated(topic: Topic): Date | undefined {
+  return getLastUpdated(topic.filePath);
+}
+
+/** Most recently updated first. Topics whose last-updated date can't be determined are excluded. */
+export async function getRecentlyUpdated(
+  limit = 5,
+): Promise<Array<{ topic: Topic; updated: Date }>> {
   const topics = await getTopics();
   return topics
-    .filter((topic) => topic.data.updated)
-    .sort((a, b) => b.data.updated!.getTime() - a.data.updated!.getTime())
+    .map((topic) => ({ topic, updated: getUpdated(topic) }))
+    .filter((entry): entry is { topic: Topic; updated: Date } => entry.updated !== undefined)
+    .sort((a, b) => b.updated.getTime() - a.updated.getTime())
     .slice(0, limit);
 }
 

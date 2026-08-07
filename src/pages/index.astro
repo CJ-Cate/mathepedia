@@ -50,10 +50,10 @@ const articleCount = `${topics.length} ${topics.length === 1 ? 'article' : 'arti
       <>
         <h2 class="section-heading">Recently updated</h2>
         <ul class="topic-links">
-          {recent.map((topic) => (
+          {recent.map(({ topic, updated }) => (
             <li>
               <a href={topicHref(topic.id)}>{topic.data.title}</a>{' '}
-              <span class="card__count">— {formatDate(topic.data.updated!)}</span>
+              <span class="card__count">— {formatDate(updated)}</span>
               <span class="topic-links__blurb">{topic.data.description}</span>
             </li>
           ))}

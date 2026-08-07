@@ -23,7 +23,12 @@ jobs:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
+      # Full history, not the default shallow clone -- "Last updated" on each page is
+      # derived from `git log` per file at build time, and would silently fall back to
+      # checkout time (wrong) for every article otherwise.
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v7
         with:
@@ -46,7 +51,10 @@ jobs:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
+      # See the same fetch-depth note in the validate job above.
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
       - name: Build site
         uses: withastro/action@v6

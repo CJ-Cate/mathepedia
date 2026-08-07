@@ -3,7 +3,7 @@ import type { MarkdownHeading } from 'astro';
 import BaseLayout from './BaseLayout.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 import TopicLinks from '../components/TopicLinks.astro';
-import { CATEGORIES, formatDate, type Topic } from '../lib/topics';
+import { CATEGORIES, formatDate, getUpdated, type Topic } from '../lib/topics';
 import { categoryHref } from '../lib/url';
 
 interface Props {
@@ -14,7 +14,8 @@ interface Props {
 }
 
 const { topic, headings, headingHtml } = Astro.props;
-const { title, description, category, tags, prerequisites, seeAlso, updated, draft } = topic.data;
+const { title, description, category, tags, prerequisites, seeAlso, draft } = topic.data;
+const updated = getUpdated(topic);
 
 const categoryMeta = CATEGORIES[category];
 ---

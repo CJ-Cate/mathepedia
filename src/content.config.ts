@@ -50,16 +50,6 @@ const topics = defineCollection({
     /** Topic ids for further reading. Rendered in the article footer. */
     seeAlso: list(),
 
-    /**
-     * Bumped by hand when the article changes meaningfully. Blank is treated as absent:
-     * a bare `updated:` would otherwise coerce through `new Date(null)` and silently
-     * date the article to 1 January 1970.
-     */
-    updated: z.coerce
-      .date()
-      .nullish()
-      .transform((value) => value ?? undefined),
-
     /** Draft articles are visible with `npm run dev` but excluded from the built site. */
     draft: z
       .boolean()
