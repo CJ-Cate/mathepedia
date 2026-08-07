@@ -1,0 +1,79 @@
+---
+title: The Gaussian Integral
+description: Evaluating the definite integral of a non-integratable function
+category: proof
+tags:
+  - integration
+  - multivariable-calculus
+---
+
+
+*Writers note: This is my personal favourite integral of all time*
+
+Take a look at the following integral:
+$$
+\int_{-\infty}^{\infty}e^{-x^2}dx
+$$
+You may recall that $f(x)=e^{-x^2}$ is a famous function which has no anti-derivative, which is true. However, just because it is not integratable does not mean that the function cannot be evaluated between bounds.
+
+When inspecting the graph visually it does appear to converge (as opposed to an obvious divergence) so it is at least feasible that it may converge to a specific value.
+
+<Desmos id="djlq5aa7ky" height={250}>
+	Inspect the graph of $e^{-x^2}$
+</Desmos>
+
+The solution to solving this integral was discovered by Carl Friedrich Gauss, and is as follows:
+$$
+\begin{align}
+	\text{Let }I=\int_{-\infty}^{\infty} e^-x^2 \, dx \\
+\end{align}
+$$
+We now have the most peculiar first step:
+$$
+\begin{align}
+	\text{Therefore let }I^2=\int_{-\infty}^{\infty} e^-x^2 \, dx \int_{-\infty}^{\infty} e^-y^2 \, dy \\
+\end{align}
+$$
+Here we use the new variable $y$ for simplicity and convention.
+$$
+\begin{align}
+	\int_{-\infty}^{\infty} e^-x^2 \, dx \int_{-\infty}^{\infty} e^-y^2 \, dy = I^2\\
+	\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} e^{-x^2}e^{-y^2} \, dx  \, dy = I^2 \\
+	\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} e^{-(x^2+y^2)} \, dx  \, dy = I^2
+\end{align}
+$$
+Recall the polar coordinate conversion below, and that the bounds over $r$ are $[0,\infty]$ and over $\theta$ are $[0, 2\pi]$.
+$$
+\begin{cases}
+	r^2=x^2+y^2 \\
+	dy\,dx=r\,dr\,d\theta  \\
+\end{cases}
+$$
+We now convert our integral to polar coordinates.
+$$
+\begin{align}	\int_{0}^{2\pi}\int_{0}^{\infty}  e^{-r^2} r \, dr  \, d\theta = I^2 
+\end{align}
+$$
+In form we now have a very similar integral to that which we started with, but we have the critically important extra $r$ variable present. This now gives us the ability to integrate this function, which can be done easily by inspecting the derivative of $e^{-x^2}$. This is done simply with the chain rule.
+$$
+\begin{align}
+	\frac{d}{dx}[e^{-x^2}]=-2xe^{-x^2}
+\end{align}
+$$
+This derivative is a simple factor of $-2$ difference from our current function value of $I^2$, so when we integrate over $r$ it will be simple to do so by including the reciprocal factor of $-\frac{1}{2}$. First we should integrate over theta because it will help keep the equation simple.
+$$
+\begin{align}	\int_{0}^{\infty}\int_{0}^{2\pi} r e^{-r^2} \, d\theta  \, dr = I^2  \\
+2\pi \int_{0}^{\infty} re^{-r^{2}} \, dr = I^2  \\
+\left( 2\pi*-\frac{1}{2} \right)*e^{-r^2}\Big|_{0}^{\infty}=I^2 \\
+-\pi\ * (e^{-\infty^2}-e^{-0^2})=I^2 \\
+-\pi\ * \left( \frac{1}{e^{\infty}} -1 \right)=I^2 \\
+-\pi\ * \left( 0 -1 \right)=I^2 \\
+\pi =I^2 \\
+\sqrt{ \pi }=I\ \
+\end{align}
+$$
+Therefore:
+$$
+\int_{-\infty}^{\infty} e^{-x^2} \, d =\sqrt{ \pi }
+$$
+This is a quite surprising and pleasant result, and yet another area of mathematics where $e$ and $pi$ magically appear next to each other. 
