@@ -1,3 +1,11 @@
+---
+title: The Quadratic Formula
+description: The formula for finding the x-intercepts of a second-degree polynomial (quadratic equation).
+category: concept
+tags:
+  - algebra
+seeAlso:
+---
 The quadratic formula is a formula that will solve for the x-intercepts of a second-degree polynomial (known as a quadratic equation), if they exist. It is possible for a quadratic equation to have either 2, 1, or 0 intercepts. The Quadratic Formula is as follows:
 
 $$

@@ -1,4 +1,11 @@
-
+---
+title: Integrals
+description: The operator representing the area or volume bounded by a function, including definite and indefinite integral notation.
+category: concept
+tags:
+  - calculus
+seeAlso:
+---
 # Basically, what is an integral?
 
 An integral is an operator that represents the area which is bounded by a function. If we were to integrate the simple function $y=x$ from zero to infinity it would be denoted as such:

@@ -1,3 +1,12 @@
+---
+title: Logarithms
+description: The inverse operation of exponentiation, including the natural logarithm and the regional differences in log notation.
+category: concept
+tags:
+  - exponents
+seeAlso:
+  - concepts/eulers-constant
+---
 A logarithm is the opposite of an exponent. For example, $3^2=9$ and $\log_{3}(9)=2$. We use a logarithm with the *base* of the exponent we are solving for and put the output in the parenthesis.
 $$
 a^b=c \to \log_{b}(c)=a

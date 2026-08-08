@@ -1,3 +1,11 @@
+---
+title: Addition
+description: The arithmetic operation of combining quantities, including its commutative and associative properties and its extension to matrices and complex numbers.
+category: concept
+tags:
+  - arithmetic
+seeAlso:
+---
 # Introduction
 Addition is an arithmetic operation denoted by a plus sign `+` which represents the putting of objects into a collection. 
 $$

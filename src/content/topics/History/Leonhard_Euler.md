@@ -1,3 +1,12 @@
+---
+title: Leonhard Euler
+description: A biography of the Swiss mathematician known for Euler's Constant, Euler's Identity, and his extensive contributions across mathematics.
+category: history
+tags:
+  - biography
+seeAlso:
+  - concepts/eulers-constant
+---
 Leonhard Euler (pronounced OY-ler, *not* YOO-ler) was a Swiss mathematician (among other things) so good at his study that there is an entire Wikipedia page dedicated to the things named after him! ([Link](https://en.wikipedia.org/wiki/List_of_topics_named_after_Leonhard_Euler)). It's hard to navigate any field of modern science without accidentally running into his work.
 
 Perhaps the most widely popular part of Euler's work would be Euler's Constant, `e` (approx. 2.71828). (To be fair, it wasn't named after him until long after he died.) Euler's constant is an irrational number known for having fantastic properties and appearing in an extremely broad amount of topics.
