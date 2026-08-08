@@ -7,8 +7,6 @@ tags:
  - imaginary-numbers
 seeAlso:
 ---
-# Introduction
-
 Like many things in life, numbers can be sorted into different groupings called sets. The most common set of numbers is likely the set of natural numbers. This set of numbers starts at 1 and continues by increments of 1 forever, but does not contain infinity.
 
 $$

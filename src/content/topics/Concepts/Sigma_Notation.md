@@ -1,3 +1,11 @@
+---
+title: Sigma Notation
+description: Exploring different sets of numbers and introductory set theory.
+category: concept
+tags:
+seeAlso:
+---
+
 A capital Greek sigma is the notation used for a summation statement, also called sigma notation. It looks like this:
 $$
 \sum_{}^{}

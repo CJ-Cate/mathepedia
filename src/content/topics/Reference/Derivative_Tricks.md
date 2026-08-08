@@ -1,7 +1,7 @@
 ---
 title: Derivative Tricks
 description: A collection of derivatives with convenient answers.
-category: concept
+category: reference
 tags:
 seeAlso:
 ---
