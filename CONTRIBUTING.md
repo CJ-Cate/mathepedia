@@ -53,9 +53,19 @@ That is a complete, publishable article.
 generated automatically from git history at build time — there is no field for this, and
 nothing to remember to bump.
 
+**A file with no frontmatter does not break the build.** It is skipped, with a warning in
+the build log naming the file and the fields it is missing. The trade-off is that it is
+skipped *completely* — no page, no search entry, not even in `npm run dev` — because
+without a `title` and a `category` there is nothing to render or file it under. So an
+article you are still starting can sit in the tree without blocking anyone's deploy, but
+you will not see it on the site until it has a header. The same applies to a header that
+exists but is wrong, such as a `category` outside the list above.
+
 A **topic id** is a file name without its extension. `prerequisites: [derivative]` refers
 to `src/content/topics/derivative.mdx`. Pointing at a topic that does not exist fails the
-build with a message naming the file and suggesting near matches.
+build with a message naming the file and suggesting near matches. Pointing at one that
+exists but is unpublished — no header yet, or `draft: true` — is not an error: the link is
+dropped and the build warns.
 
 ## The two house rules
 

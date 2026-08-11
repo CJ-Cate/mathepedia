@@ -3,7 +3,7 @@ import type { MarkdownHeading } from 'astro';
 import BaseLayout from './BaseLayout.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 import TopicLinks from '../components/TopicLinks.astro';
-import { CATEGORIES, formatDate, getUpdated, type Topic } from '../lib/topics';
+import { CATEGORIES, formatDate, getUpdated, resolveTopicIds, type Topic } from '../lib/topics';
 import { categoryHref } from '../lib/url';
 
 interface Props {
@@ -18,6 +18,14 @@ const { title, description, category, tags, prerequisites, seeAlso, draft } = to
 const updated = getUpdated(topic);
 
 const categoryMeta = CATEGORIES[category];
+
+/*
+ * Resolved here rather than inside `TopicLinks` so the box and its heading are decided by
+ * the same count. An id list can be non-empty and still produce no links -- every target
+ * withheld -- and a "Read first" box with nothing in it is worse than no box.
+ */
+const prereqTopics = await resolveTopicIds(prerequisites, 'prerequisites', topic.id);
+const seeAlsoTopics = await resolveTopicIds(seeAlso, 'seeAlso', topic.id);
 ---
 
 <BaseLayout title={title} description={description} path={`/topics/${topic.id}/`}>
@@ -32,10 +40,10 @@ const categoryMeta = CATEGORIES[category];
     </header>
 
     {
-      prerequisites.length > 0 && (
+      prereqTopics.length > 0 && (
         <section class="prereqs" aria-label="Suggested reading first">
           <p class="prereqs__title">Read first</p>
-          <TopicLinks ids={prerequisites} field="prerequisites" sourceId={topic.id} />
+          <TopicLinks topics={prereqTopics} />
         </section>
       )
     }
@@ -57,10 +65,10 @@ const categoryMeta = CATEGORIES[category];
 
     <footer class="article__footer">
       {
-        seeAlso.length > 0 && (
+        seeAlsoTopics.length > 0 && (
           <>
             <h2>See also</h2>
-            <TopicLinks ids={seeAlso} field="seeAlso" sourceId={topic.id} />
+            <TopicLinks topics={seeAlsoTopics} />
           </>
         )
       }
