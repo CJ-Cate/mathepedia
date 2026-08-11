@@ -5,7 +5,7 @@ category: history
 tags:
   - biography
 seeAlso:
-  - concepts/eulers-constant
+  - concepts/eulers_constant
 ---
 Leonhard Euler (pronounced OY-ler, *not* YOO-ler) was a Swiss mathematician (among other things) so good at his study that there is an entire Wikipedia page dedicated to the things named after him! ([Link](https://en.wikipedia.org/wiki/List_of_topics_named_after_Leonhard_Euler)). It's hard to navigate any field of modern science without accidentally running into his work.
 

@@ -30,7 +30,7 @@ f(x)=x^3; \sum_{n=3}^{4}f(n)=3^3+4^3=91
 $$
 Summation statements really are that simple!
 
-If you are familiar with for loops in programming languages, then you are already familiar with the concept!
+If you are familiar with for loops in programming languages, then you are already familiar with the concept! This is an example for loop that is the same as summing 1, 2, and 3 together.
 
 ```go
 sum := 0

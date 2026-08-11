@@ -1,0 +1,64 @@
+---
+title: Integrals
+description: The operator representing the area or volume bounded by a function, covering definite and indefinite integrals and the notation for both.
+category: concept
+tags:
+  - calculus
+  - integration
+seeAlso:
+  - proofs_and_topics/the_gaussian_integral
+  - reference/derivative_tricks
+---
+
+An integral is an operator that represents the ability to calculate the area which is bounded by a function. 
+
+The goal of a *definite* integral is to calculate the area under a curve. With it you are able to find the volumes of all the positive sections and negative sections, which you add together for an answer. An *indefinite* integral is an integral with no bounds, which is used to find the anti-derivative of a function.
+
+Let us focus on definite integrals for now. Look at the following graph, it has red sections and green sections.
+
+<Desmos id="zyjvklirjz" height={420}>
+  Green regions count positive and red regions count negative; the definite integral is their signed sum.
+</Desmos>
+
+To calculate the definite integral of this entire function (meaning from negative infinity to positive infinity), we take the signed sum of all of these regions and add them together. A signed sum means to add the areas above the x-axis and remove the areas below the x-axis, just as its coloured above.
+
+## Popular Integral Notation
+
+Integral notation has three important parts: the bounds, the function, and the variable on which we are integrating. An integral can also be either *definite*, when it has a lower-bound $a$ and upper bound $b$, or *indefinite* in which the bounds are absent.
+
+This is an example of a definite integral:
+$$
+\int_{a}^{b}f(x)dx
+$$
+This is an example of an indefinite integral:
+$$
+\int f(x)dx
+$$
+The function shown as $f(x)$ is symbolic and could be expanded, it is meant to express any function which could be integrated.
+
+The $dx$ represents the variable we are integrating. The $d$ is standard to mean that we are integrating the variable directly after it, which could be $dy$, $dr$, $d\theta$, $df$, or any other variable. It is important that the variable that we are integrating is actually present in our function 
+
+
+## Definite Integrals
+If we were to integrate the simple function $y=x$ from zero to infinity it would be denoted as such:
+$$
+\int_{0}^{\infty}  x\, dx
+$$
+
+## Indefinite Integrals
+
+An indefinite integral is the opposite of the derivative. If we are to integrate a function $f(x)$, the output is called the anti-derivative of $f$ and can be denoted with the capital-letter version of the function, $F(x)$. 
+$$
+F(x)=\int f(x)dx
+$$
+This is different from a definite integral because we are not calculating for a specific value but instead finding the function that, if we were to take the derivative of it, would result on the original function.
+
+When considering an anti-derivative in the context of a problem it is important to remember that any information that is lost when taking the derivative of a function is not regained. Take the following example:
+$$
+\begin{align}
+	\text{Let } f(x)=2x+4 \\
+	\frac{d}{dx}[f(x)]=2 \\
+	\int 2dx=2x+c
+\end{align}
+$$
+The original $f(x)$ function contains a constant value that is lost when the derivative was performed, and that information could not be re-gained when the function was integrated.

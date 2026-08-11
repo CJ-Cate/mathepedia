@@ -54,14 +54,14 @@ In some cases, exponents that share a common base value can be algebraically man
 $$
 \begin{align}
 	a^2*a^3=(a*a)*(a*a*a)=a^5 \\ \\
-	a^2+a^3=a^{2+3}=a^5
+	a^2*a^3=a^{2+3}=a^5
 \end{align}
 $$
 Similarly, you would subtract a negative exponent.
 $$
 \begin{align}
-	a^5*a^3=\frac{a*a*a*a*a}{a*a*a}=a^2 \\
-	a^5*a^3=a^{5-3}=a^2
+	a^5*a^{-3}=\frac{a*a*a*a*a}{a*a*a}=a^2 \\
+	a^5*a^{-3}=a^{5-3}=a^2
 \end{align}
 $$
 

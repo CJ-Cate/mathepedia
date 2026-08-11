@@ -68,7 +68,7 @@ The irrational set, $\neg\,\Bbb Q$ (not $\Bbb Q$) is simple: it is the negation 
 The set of real numbers is the simple union (combination) of the rational set and the irrational set. This set of numbers encompasses any number that does not have a complex component.
 $$
 \begin{align}
-	\Bbb R = \Bbb Q \,\cap\, \neg \,\Bbb Q
+	\Bbb R = \Bbb Q \,\cup\, \neg \,\Bbb Q
 \end{align}
 $$
 ### The Complex Numbers $\Bbb C$

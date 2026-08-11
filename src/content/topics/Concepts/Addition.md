@@ -6,7 +6,6 @@ tags:
   - arithmetic
 seeAlso:
 ---
-# Introduction
 Addition is an arithmetic operation denoted by a plus sign `+` which represents the putting of objects into a collection. 
 $$
 OO\ + \ OOO\ = OOOOO
@@ -24,10 +23,10 @@ $$
 (1+2)+3\stackrel{?}{=}1+(2+3)\\(3)+3\stackrel{?}{=}1+(5)\\6=6
 $$
 
-
-
-# Matrix Addition
-
-# Addition in a Closed Number System
-
 # Addition of Complex Numbers
+
+Addition of complex numbers is simple: you simply add the real and complex parts seperately.
+
+$$
+(a+bi) + (c+di) = (a+c)+(b+d)i
+$$
