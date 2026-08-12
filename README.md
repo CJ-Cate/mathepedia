@@ -1,4 +1,4 @@
-# Mathepedia
+# Mathipedia
 
 A free human-written encyclopedia of mathematics.
 
@@ -9,7 +9,7 @@ up in pop culture.
 
 No accounts, no login, just markdown and HTML. Submit a change or via a pull request.
 
-**Live at:** https://mathepedia.org
+**Live at:** https://mathipedia.org
 
 ---
 

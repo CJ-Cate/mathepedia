@@ -1,6 +1,6 @@
 ---
 name: make-header
-description: Generate or fix the YAML frontmatter header for a Mathepedia article in src/content/topics/. Use this whenever the user asks to "make a header", "add frontmatter", "generate the header/metadata", fix a missing/broken header, or when a file under src/content/topics/ has no frontmatter block (build will fail without one). Also use when adding a brand-new article that needs its header filled in.
+description: Generate or fix the YAML frontmatter header for a Mathipedia article in src/content/topics/. Use this whenever the user asks to "make a header", "add frontmatter", "generate the header/metadata", fix a missing/broken header, or when a file under src/content/topics/ has no frontmatter block (build will fail without one). Also use when adding a brand-new article that needs its header filled in.
 ---
 
 # Make Header

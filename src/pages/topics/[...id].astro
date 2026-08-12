@@ -30,7 +30,7 @@ const headingHtml: Record<string, string> = remarkPluginFrontmatter.headingHtml 
 /*
  * House rule: an article is at least two sections deep.
  *
- * A Mathepedia page is supposed to walk from intuition down to the technical version,
+ * A Mathipedia page is supposed to walk from intuition down to the technical version,
  * and a single-section page is a stub wearing an article's clothes. This is advice
  * rather than law, though -- a short article that is genuinely finished should still
  * publish, and a work in progress should still be previewable. So it warns and moves
@@ -41,7 +41,7 @@ const sections = headings.filter((heading) => heading.depth === 2);
 if (sections.length < 2) {
   const file = topic.filePath ?? `src/content/topics/${topic.id}`;
   console.warn(
-    `[mathepedia] ${file} has ${sections.length} section heading(s); articles read better ` +
+    `[mathipedia] ${file} has ${sections.length} section heading(s); articles read better ` +
       `with at least 2.\n` +
       `            Consider "## " headings that move from the intuitive explanation down ` +
       `to the more technical one. See CONTRIBUTING.md.`,

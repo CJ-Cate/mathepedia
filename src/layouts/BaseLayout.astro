@@ -15,11 +15,11 @@ interface Props {
 
 const { title, description, path } = Astro.props;
 
-// The repository behind mathepedia.org. Only used for the "Contribute" links in the
+// The repository behind mathipedia.org. Only used for the "Contribute" links in the
 // sidebar -- the site itself is served from the custom domain in public/CNAME.
-const REPO_URL = 'https://github.com/CJ-Cate/mathepedia';
+const REPO_URL = 'https://github.com/CJ-Cate/mathipedia';
 
-const SITE_NAME = 'Mathepedia';
+const SITE_NAME = 'Mathipedia';
 const TAGLINE = 'The free math encyclopedia';
 const DEFAULT_DESCRIPTION =
   'A free, open encyclopedia of mathematics — concepts, proofs, calculators, and math in pop culture.';
@@ -54,7 +54,7 @@ const canonical = new URL(href(path), Astro.site ?? Astro.url).toString();
     <script is:inline>
       (() => {
         try {
-          const saved = localStorage.getItem('mathepedia-theme');
+          const saved = localStorage.getItem('mathipedia-theme');
           if (saved === 'light' || saved === 'dark') {
             document.documentElement.dataset.theme = saved;
           }
@@ -149,7 +149,7 @@ const canonical = new URL(href(path), Astro.site ?? Astro.url).toString();
         const next = current === 'dark' ? 'light' : 'dark';
         root.dataset.theme = next;
         try {
-          localStorage.setItem('mathepedia-theme', next);
+          localStorage.setItem('mathipedia-theme', next);
         } catch {
           /* nothing to do — the toggle still works for this page view */
         }

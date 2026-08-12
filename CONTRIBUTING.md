@@ -1,4 +1,4 @@
-# Writing for Mathepedia
+# Writing for Mathipedia
 
 Articles are Markdown files. There is no account to create and no CMS to learn — add a
 file, open a pull request.
@@ -83,7 +83,7 @@ previewable. Treat the warning as a nudge: a one-section page is usually a stub,
 are what make a wiki feel abandoned.
 
 **2. Sections go from simple to technical, top to bottom.** This is the thing that makes
-Mathepedia different from a textbook, and it is the one rule a build cannot check for you.
+Mathipedia different from a textbook, and it is the one rule a build cannot check for you.
 A reader should be able to stop at any point and have gotten a real answer at the depth
 they read to.
 

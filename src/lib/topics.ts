@@ -64,7 +64,7 @@ function warnWithheld(topic: Topic): void {
 
   const issues = topic.data.withheld ?? [];
   console.warn(
-    `[mathepedia] ${file} has missing or invalid frontmatter and will not be published:\n` +
+    `[mathipedia] ${file} has missing or invalid frontmatter and will not be published:\n` +
       issues.map((issue) => `              - ${issue}`).join('\n') +
       `\n            Add a header block at the top of the file. See CONTRIBUTING.md.`,
   );
@@ -168,7 +168,7 @@ export async function resolveTopicIds(
     const reason = withheld.get(id);
     if (reason) {
       console.warn(
-        `[mathepedia] src/content/topics/${sourceId}.mdx lists "${id}" under \`${field}\`, ` +
+        `[mathipedia] src/content/topics/${sourceId}.mdx lists "${id}" under \`${field}\`, ` +
           `but that\n            article is unpublished (${reason}). Link omitted.`,
       );
       return [];

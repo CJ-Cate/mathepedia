@@ -3,7 +3,7 @@ import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
 /**
- * Every article on Mathepedia lives in `src/content/topics/` as a `.mdx` file.
+ * Every article on Mathipedia lives in `src/content/topics/` as a `.mdx` file.
  * The file name becomes the URL: `derivative.mdx` -> `/topics/derivative`.
  *
  * If you add a field here, add it to CONTRIBUTING.md too — that file is the one

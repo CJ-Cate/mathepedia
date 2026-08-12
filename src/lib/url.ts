@@ -3,7 +3,7 @@
  *
  * The site is currently served from the root, so `href()` passes paths through almost
  * unchanged. It is still worth routing every internal link through it: the moment the
- * site moves under a path prefix — a project page at `/mathepedia/`, a docs subdirectory,
+ * site moves under a path prefix — a project page at `/mathipedia/`, a docs subdirectory,
  * a preview deployment — every hard-coded `href="/topics/derivative"` silently 404s in
  * production while continuing to work in local dev. Changing `BASE` in `astro.config.mjs`
  * is then the only edit required.
@@ -33,5 +33,5 @@ export function categoryHref(category: string): string {
 
 /** Absolute URL, for canonical links and Open Graph tags. */
 export function absoluteHref(path: string, site: URL | undefined): string {
-  return new URL(href(path), site ?? 'https://mathepedia.org').toString();
+  return new URL(href(path), site ?? 'https://mathipedia.org').toString();
 }

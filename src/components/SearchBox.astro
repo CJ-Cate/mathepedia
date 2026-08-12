@@ -14,13 +14,13 @@ const { id = 'site-search' } = Astro.props;
 ---
 
 <form class="searchbox" role="search" action={href('/search/')} method="get">
-  <label class="visually-hidden" for={id}>Search Mathepedia</label>
+  <label class="visually-hidden" for={id}>Search Mathipedia</label>
   <input
     class="searchbox__input"
     id={id}
     type="search"
     name="q"
-    placeholder="Search Mathepedia"
+    placeholder="Search Mathipedia"
     autocomplete="off"
     spellcheck="false"
   />
