@@ -1,0 +1,57 @@
+---
+import { parseYoutubeUrl } from '../lib/youtube';
+
+/**
+ * Embeds a YouTube video from its ordinary watch/share URL.
+ *
+ *   <Youtube url="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+ *     3Blue1Brown's visual intro to the chain rule.
+ *   </Youtube>
+ *
+ * Paste whatever URL YouTube gives you -- watch, youtu.be, embed, or shorts links
+ * all work, with or without extra query params like `&t=90s`.
+ *
+ * Uses youtube-nocookie.com and is lazy-loaded, so nothing is requested from YouTube
+ * until the reader scrolls near it.
+ */
+interface Props {
+  /** A YouTube video URL, in any of its usual forms. */
+  url: string;
+  /** Accessible name for the iframe. Defaults to the caption-agnostic fallback. */
+  title?: string;
+}
+
+const { url, title } = Astro.props;
+const parsed = parseYoutubeUrl(url);
+
+// Authored content, but a bad URL silently produces a broken embed that nobody notices
+// in review. Failing the build is louder and cheaper.
+if (!parsed) {
+  throw new Error(
+    `<Youtube url="${url}" /> is not a recognized YouTube URL. Expected something like ` +
+      `https://www.youtube.com/watch?v=dQw4w9WgXcQ or https://youtu.be/dQw4w9WgXcQ.`,
+  );
+}
+
+const { id, start } = parsed;
+const embedSrc = `https://www.youtube-nocookie.com/embed/${id}?rel=0${start ? `&start=${start}` : ''}`;
+const pageSrc = `https://www.youtube.com/watch?v=${id}`;
+---
+
+<figure class="embed embed--youtube">
+  <div class="embed__youtube-frame">
+    <iframe
+      src={embedSrc}
+      title={title ?? 'Embedded YouTube video'}
+      loading="lazy"
+      allowfullscreen
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+  <figcaption>
+    <slot />
+    <a class="embed__source" href={pageSrc} target="_blank" rel="noopener noreferrer">
+      Watch on YouTube
+    </a>
+  </figcaption>
+</figure>

@@ -48,6 +48,7 @@ That is a complete, publishable article.
 | `prerequisites` | no | Topic ids to read first. Rendered as a "Read first" box |
 | `seeAlso` | no | Topic ids for further reading. Rendered in the footer |
 | `draft` | no | `true` keeps the article out of the deployed site while you work |
+| `youtube` | no | A YouTube URL, embedded next to the "Contents" box at the top of the page |
 
 "Last updated" on the article page and the home page's "Recently updated" list are both
 generated automatically from git history at build time — there is no field for this, and
@@ -66,6 +67,13 @@ to `src/content/topics/derivative.mdx`. Pointing at a topic that does not exist 
 build with a message naming the file and suggesting near matches. Pointing at one that
 exists but is unpublished — no header yet, or `draft: true` — is not an error: the link is
 dropped and the build warns.
+
+`youtube: https://www.youtube.com/watch?v=dQw4w9WgXcQ` renders that video as an iframe
+next to the "Contents" box. Every article gets a Contents box — even one with no `##`
+headings gets a lone "Introduction" entry — so the video always has that space to sit in.
+Accepts the same URL forms as the `<Youtube>` embed below (watch, `youtu.be`, embed,
+shorts, with or without a `&t=` start time) and fails the build the same way on an
+unrecognized URL. Leave the field out entirely for no video.
 
 ## The two house rules
 
@@ -139,7 +147,7 @@ linking to it.
 
 ## Embeds
 
-These five components are available in every article. **Do not import them** — they are
+These six components are available in every article. **Do not import them** — they are
 injected automatically. Just use them.
 
 ### Desmos graphs
@@ -171,6 +179,20 @@ For a live embedded widget, use a widget id from
 ```
 
 Use widgets sparingly. They load third-party scripts and slow the page down.
+
+### YouTube videos
+
+```mdx
+<Youtube url="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+  3Blue1Brown's visual intro to the chain rule.
+</Youtube>
+```
+
+Paste whatever URL YouTube gives you — watch, `youtu.be`, embed, or shorts links all
+work, with or without extra query params like `&t=90s` (carried over as the embed's
+start time). The caption is optional and takes Markdown. Renders via
+`youtube-nocookie.com` and is lazy-loaded, so it costs nothing until a reader scrolls
+to it.
 
 ### Images
 

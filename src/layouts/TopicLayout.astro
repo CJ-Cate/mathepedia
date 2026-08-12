@@ -3,6 +3,7 @@ import type { MarkdownHeading } from 'astro';
 import BaseLayout from './BaseLayout.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 import TopicLinks from '../components/TopicLinks.astro';
+import TopicVideo from '../components/TopicVideo.astro';
 import { CATEGORIES, formatDate, getUpdated, resolveTopicIds, type Topic } from '../lib/topics';
 import { categoryHref } from '../lib/url';
 
@@ -14,7 +15,8 @@ interface Props {
 }
 
 const { topic, headings, headingHtml } = Astro.props;
-const { title, description, category, tags, prerequisites, seeAlso, draft } = topic.data;
+const { title, description, category, tags, prerequisites, seeAlso, draft, youtube } =
+  topic.data;
 const updated = getUpdated(topic);
 
 const categoryMeta = CATEGORIES[category];
@@ -48,7 +50,10 @@ const seeAlsoTopics = await resolveTopicIds(seeAlso, 'seeAlso', topic.id);
       )
     }
 
-    <TableOfContents headings={headings} headingHtml={headingHtml} />
+    <div class="article__top">
+      <TableOfContents headings={headings} headingHtml={headingHtml} />
+      {youtube && <TopicVideo url={youtube} title={`Video: ${title}`} />}
+    </div>
 
     {/*
       `data-pagefind-body` scopes the search index to the article itself. Without it
@@ -56,6 +61,7 @@ const seeAlsoTopics = await resolveTopicIds(seeAlso, 'seeAlso', topic.id);
       "Categories" returns all 40 articles.
     */}
     <div
+      id="introduction"
       class="article__body"
       data-pagefind-body
       data-pagefind-meta={`category:${categoryMeta.singular}`}

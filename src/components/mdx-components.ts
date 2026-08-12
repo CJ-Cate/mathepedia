@@ -3,6 +3,7 @@ import Desmos from './Desmos.astro';
 import Figure from './Figure.astro';
 import Infobox from './Infobox.astro';
 import Wolfram from './Wolfram.astro';
+import Youtube from './Youtube.astro';
 
 /**
  * Components every article can use without importing anything.
@@ -20,4 +21,5 @@ export const mdxComponents = {
   Figure,
   Infobox,
   Wolfram,
+  Youtube,
 };

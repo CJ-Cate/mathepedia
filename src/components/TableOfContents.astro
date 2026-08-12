@@ -6,6 +6,13 @@ import type { MarkdownHeading } from 'astro';
  *
  * Only `##` and `###` are listed. `#` is the article title, and anything deeper than
  * `###` makes the box longer than the section it points at.
+ *
+ * Every article also gets a synthetic "Introduction" entry prepended, pointing at
+ * `#introduction` (an id on `.article__body` itself, see TopicLayout.astro) rather than
+ * a real heading -- there is no "## Introduction" for an author to write, and none should
+ * appear in the article. This is what guarantees the Contents box always renders, even
+ * for a short article with no `##` headings of its own, so it reliably sits next to the
+ * `youtube` frontmatter video instead of leaving it alone in the row.
  */
 interface Props {
   headings: MarkdownHeading[];
@@ -20,26 +27,30 @@ interface Props {
 
 const { headings, headingHtml = {} } = Astro.props;
 
-const entries = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
+const entries: Pick<MarkdownHeading, 'depth' | 'slug' | 'text'>[] = [
+  { depth: 2, slug: 'introduction', text: 'Introduction' },
+  // A real "## Introduction" would otherwise collide with the synthetic entry's slug
+  // above, producing a duplicate #introduction id in the rendered page.
+  ...headings.filter(
+    (heading) => (heading.depth === 2 || heading.depth === 3) && heading.slug !== 'introduction',
+  ),
+];
 ---
 
-{
-  entries.length > 0 && (
-    <nav class="toc" aria-labelledby="toc-heading">
-      <p class="toc__title" id="toc-heading">
-        Contents
-      </p>
-      <ol class="toc__list">
-        {entries.map((heading) => (
-          <li class={`toc__item toc__item--depth-${heading.depth}`}>
-            {headingHtml[heading.slug] ? (
-              <a href={`#${heading.slug}`} set:html={headingHtml[heading.slug]} />
-            ) : (
-              <a href={`#${heading.slug}`}>{heading.text}</a>
-            )}
-          </li>
-        ))}
-      </ol>
-    </nav>
-  )
-}
+<nav class="toc" aria-labelledby="toc-heading">
+  <p class="toc__title" id="toc-heading">
+    Contents
+  </p>
+  <ol class="toc__list">
+    {entries.map((heading) => (
+      <li class={`toc__item toc__item--depth-${heading.depth}`}>
+        {headingHtml[heading.slug] ? (
+          <a href={`#${heading.slug}`} set:html={headingHtml[heading.slug]} />
+        ) : (
+          <a href={`#${heading.slug}`}>{heading.text}</a>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
+

@@ -57,6 +57,14 @@ export const topicSchema = z.object({
     .boolean()
     .nullish()
     .transform((value) => value ?? false),
+
+  /**
+   * A YouTube URL, rendered as an iframe next to the "Contents" box at the top of the
+   * article. Optional -- omit the field entirely and nothing renders. Parsed and
+   * validated by `parseYoutubeUrl` (src/lib/youtube.ts) at render time, same as the
+   * `<Youtube>` embed used in article prose.
+   */
+  youtube: z.string().nullish(),
 });
 
 /**

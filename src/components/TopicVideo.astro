@@ -1,0 +1,47 @@
+---
+import { parseYoutubeUrl } from '../lib/youtube';
+
+/**
+ * The video that renders next to the "Contents" box when an article sets a `youtube:`
+ * frontmatter field. Same URL handling as `Youtube.astro`, but positioned at the top of
+ * the page instead of inline in the prose -- see TopicLayout.astro / `.article__top`.
+ */
+interface Props {
+  /** A YouTube video URL, in any of its usual forms. */
+  url: string;
+  /** Accessible name for the iframe. */
+  title?: string;
+}
+
+const { url, title } = Astro.props;
+const parsed = parseYoutubeUrl(url);
+
+// Frontmatter, but a bad URL silently produces a broken embed that nobody notices in
+// review. Failing the build is louder and cheaper.
+if (!parsed) {
+  throw new Error(
+    `The "youtube" frontmatter field ("${url}") is not a recognized YouTube URL. ` +
+      `Expected something like https://www.youtube.com/watch?v=dQw4w9WgXcQ or ` +
+      `https://youtu.be/dQw4w9WgXcQ.`,
+  );
+}
+
+const { id, start } = parsed;
+const embedSrc = `https://www.youtube-nocookie.com/embed/${id}?rel=0${start ? `&start=${start}` : ''}`;
+const pageSrc = `https://www.youtube.com/watch?v=${id}`;
+---
+
+<div class="topic-video">
+  <div class="topic-video__frame">
+    <iframe
+      src={embedSrc}
+      title={title ?? 'Embedded YouTube video'}
+      loading="lazy"
+      allowfullscreen
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+  <a class="embed__source" href={pageSrc} target="_blank" rel="noopener noreferrer">
+    Watch on YouTube
+  </a>
+</div>
