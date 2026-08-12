@@ -12,7 +12,7 @@ In Black Panther: Wakanda Forever there is a reference to the Collatz conjecture
 ```
 Solve or DONT KNOCK Collatz Conjecture 3(x)+1 
 ```
-The Collatz conjecture is a famous open conjecture in math, which means it is unanswered. It is also famous for coming from an extremely simple premise. This sign is meant to be humerous because the conjecture has been open for over $80$ years and is widely considered to be an unproductive use of time.
+The Collatz conjecture is a famous open conjecture in math, which means it is unanswered. It is also famous for coming from an extremely simple premise. This sign is meant to be humorous because the conjecture has been open for over $80$ years and is widely considered to be an unproductive use of time.
 
 ## The Conjecture
 
