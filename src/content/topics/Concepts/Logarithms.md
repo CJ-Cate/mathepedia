@@ -1,3 +1,11 @@
+---
+title: Logarithms
+description: The inverse exponential operator
+category: concept
+tags:
+seeAlso:
+---
+
 A logarithm is the opposite of an exponent. For example, $3^2=9$ and $\log_{3}(9)=2$. We use a logarithm with the *base* of the exponent we are solving for and put the output in the parenthesis.
 $$
 a^b=c \to \log_{b}(c)=a

@@ -6,6 +6,7 @@ tags:
  - set-theory
  - imaginary-numbers
 seeAlso:
+updated: 2026-08-03
 ---
 Like many things in life, numbers can be sorted into different groupings called sets. The most common set of numbers is likely the set of natural numbers. This set of numbers starts at 1 and continues by increments of 1 forever, but does not contain infinity.
 
@@ -46,17 +47,17 @@ $$
 	\Bbb Z = \{\dots,-2,-1,0,1,2,\dots\}
 \end{align}
 $$
-Notably this is the first set here that contains zero. Also of note is that the set of all integers is said to *contain* the set of natural numbers. Said differently, the set of natural numbers is a subset of the integers. This will not be explicitly noted each time, but will be a trend going forward. 
+Notably this is the first set here that contains zero. Also of note is that the set of all integers is said to *contain* the set of natural numbers. Said differently, the set of natural numbers is a subset of the integers. This uses a slightly different symbol meaning "subset".
 $$
 \begin{align}
-	\Bbb N \in \Bbb Z
+	\Bbb N \subset \Bbb Z
 \end{align}
 $$
 ### The Rationals $\Bbb Q$
 The next set is the set of rational numbers, $\Bbb Q$. The set is defined as such:
 $$
 \begin{align}
-	\Bbb{Q} = \left\{ \frac{p}{q} \mid p, q \in \Bbb{Z}, q \neq 0 \right\}
+	\Bbb{Q} = \left\{ \frac{p}{q}\,:\, p, q \in \Bbb{Z}, q \neq 0 \right\}
 \end{align}
 $$
 In plaintext, a number is rational if it can be represented as a fraction. (Note $q \neq 0$ because fractions must have a non-zero denominator.) This also encompasses the integers, because you may pick any integer $p$ with a denominator of $1$. 
@@ -68,14 +69,14 @@ The irrational set, $\neg\,\Bbb Q$ (not $\Bbb Q$) is simple: it is the negation 
 The set of real numbers is the simple union (combination) of the rational set and the irrational set. This set of numbers encompasses any number that does not have a complex component.
 $$
 \begin{align}
-	\Bbb R = \Bbb Q \,\cup\, \neg \,\Bbb Q
+	\Bbb R = \Bbb Q \,\cap\, \neg \,\Bbb Q
 \end{align}
 $$
 ### The Complex Numbers $\Bbb C$
 Finally the complex set, $\Bbb C$. A complex number is a number with a real part and an imaginary part.
 $$
 \begin{align}
-	\Bbb C = \{a+bi \ |\ a,b\in\Bbb R\}
+	\Bbb C = \{a+bi \,:\,a,b\in\Bbb R\}
 \end{align}
 $$
 
