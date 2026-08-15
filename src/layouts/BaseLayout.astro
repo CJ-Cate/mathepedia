@@ -63,6 +63,16 @@ const canonical = new URL(href(path), Astro.site ?? Astro.url).toString();
         }
       })();
     </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-TYHQQ0GZHS"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-TYHQQ0GZHS');
+    </script>
   </head>
 
   <body>
