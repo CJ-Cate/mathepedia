@@ -1,13 +1,25 @@
-Induction is a technique used to prove statements, where you need to prove a base case and the base+1 case. It can be thought of like a ladder or staircase, where you need to prove the first step and then prove how to get to the next step.
+---
+title: Induction
+description: Proving a statement for every natural number by establishing a base case and a step that carries each case to the next, with the well-ordering property behind it and a worked example.
+category: concept
+tags:
+  - logic
+  - proof-techniques
+prerequisites:
+  - concepts/sigma_notation
+seeAlso:
+  - concepts/proof_by_contradiction
+  - concepts/sets_of_numbers
+---
 
-Induction was first rigorously proved by Pascal in 1665.
+Induction is a technique used to prove statements, where you need to prove a base case and the base+1 case. It can be thought of like a ladder or staircase, where you need to prove the first step and then prove how to get to the next step.
 
 One way of showing the idea of induction is this:
 $$
-\begin{flalign}
-    1. \text{Prove the base case }	P(1) \\
-    2. \forall x \in \Bbb N : P(n) \implies P(n+1)
-\end{flalign}
+\begin{align}
+ & 1.\ \text{Prove the base case }	P(1) \\
+ & 2.\ \forall n \in \Bbb N : P(n) \implies P(n+1)
+\end{align}
 $$
 If we can prove the base case and that $P(n) \implies P(n+1)$ then we can show that we can get on the ladder and that each step will lead to the next.
 
@@ -16,10 +28,10 @@ The set of natural numbers $\Bbb N = \{ 1,2,3,\dots \}$ has an ordering, meaning
 
 Axiom: Well ordering property of $\Bbb N$.
 $$
-\begin{gather}
-    S \subset \Bbb N \text{ and } S \neq \phi \text{ then } S \text{ has a smallest element.} \\
-\{  \exists x\in S,\  \forall y\in S: x\leq y\}		
-\end{gather}
+\begin{align}
+     & \text{ If } S \subset \Bbb N \text{ and } S \neq \phi \text{ then } S \text{ has a smallest element.} \\
+	 &  \exists x\in S,\  \forall y\in S: x\leq y
+\end{align}	
 $$
 
 Let $P(n)$ be a statement depending on $n\in \Bbb N$. Assume the following:
@@ -37,7 +49,7 @@ We proceed by induction. The base case of $n=1$:
 $$
 1=\frac{1(1+1)}{2}
 $$
-We use the inductive step to show the $(n+1)^{th}$ case. Assume $P(n)$ holds, then:
+We use the inductive step to show the $(n+1)$-th case. Assume $P(n)$ holds, then:
 $$
 \begin{align}
 1+2+3+\dots+n+(n+1)
